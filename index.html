@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WF Company - Marketing Digital Imobiliário</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="loading">
+    <!-- Cabeçalho -->
+    <header class="header">
+        <nav class="header-nav">
+            <a href="#" class="logo-link">
+                <div class="logo-icon-wrapper">
+                    <span class="logo-text-small">WF</span>
+                </div>
+                <span class="logo-text">WF Company</span>
+            </a>
+            
+            <div class="header-actions">
+                <a href="#" class="btn-header">Falar com Especialista</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <!-- Camada de Fundo Estática (Sem interações com o mouse) -->
+            <div class="hero-bg-layer" aria-hidden="true">
+                <!-- Textura Fotográfica (Real Estate) -->
+                <img src="real-estate-texture.png" alt="" class="bg-photo-texture">
+                
+                <!-- Composição Criativa com a Logo -->
+                <div class="creative-logo-bg">
+                    <img src="simbolo-wf-logo.png" alt="" class="floating-logo-1">
+                    <img src="simbolo-wf-logo.png" alt="" class="floating-logo-2">
+                    <img src="simbolo-wf-logo.png" alt="" class="floating-logo-3">
+                </div>
+                
+                <!-- Mesh Gradient -->
+                <div class="bg-mesh"></div>
+                
+                <!-- Luzes / Blobs baseadas na logo -->
+                <div class="static-blob blob-1"></div>
+                <div class="static-blob blob-2"></div>
+                <div class="static-blob blob-3"></div>
+                <div class="static-blob blob-4"></div>
+                <div class="static-blob blob-5"></div>
+            </div>
+
+            <!-- Conteúdo Central -->
+            <div class="hero-content">
+                <!-- Tag Superior Inspirada no Design System -->
+                <div class="hero-reveal-el hero-pill">
+                    <i data-lucide="sparkles" class="icon-purple"></i>
+                    <span class="divider"></span>
+                    <span class="pill-text">Especialistas em VGV</span>
+                    <span class="divider"></span>
+                    <span class="live-status">
+                        <span class="pulse-dot"></span> RESULTADOS
+                    </span>
+                </div>
+
+                <!-- Título H1 Cinematográfico com Badges Flutuantes -->
+                <h1 class="hero-title hero-title-anim">
+                    Marketing Digital exclusivo ao <br>
+                    <span class="gradient-text font-bold">Mercado Imobiliário!</span>
+                    <!-- Elemento Visual Fora da Caixa (Badge Container) -->
+                    <span class="badge-container">
+                        <span class="floating-badge badge-1"><i data-lucide="sparkles"></i></span>
+                        <span class="floating-badge badge-2"><i data-lucide="building"></i></span>
+                        <span class="floating-badge badge-3"><i data-lucide="line-chart"></i></span>
+                    </span>
+                    Atendemos <span class="gradient-text font-bold">Corretores, Imobiliárias e Construtoras</span> de todo o Brasil!
+                </h1>
+
+                <!-- Subtítulo Original -->
+                <p class="hero-subtitle hero-subtitle-anim">
+                    Nos últimos 12 meses alcançamos um VGV de R$144.830.000,00 aos nossos clientes.
+                </p>
+
+                <!-- CTA -->
+                <div class="hero-actions hero-actions-anim">
+                    <a href="#" class="btn-animated-gradient">
+                        Clique e converse comigo!
+                    </a>
+                </div>
+            </div>
+
+            <!-- Chip Decorativo Inferior -->
+            <div class="corner-chip hero-reveal-el">
+                <i data-lucide="zap" class="icon-purple"></i>
+                <span>WF Company • Marketing Premium</span>
+            </div>
+
+            <!-- Fade Out na parte inferior para mesclar com o Marquee -->
+            <div class="hero-bottom-fade"></div>
+        </section>
+        
+        <!-- Marquee Section (Loop Infinito) -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <!-- Grupo 1 -->
+                    <span class="mq-text mq-highlight">Marketing Digital</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Corretores</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Imobiliárias</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Construtoras</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    
+                    <!-- Grupo 2 (Cópia Exata para o Loop) -->
+                    <span class="mq-text mq-highlight">Marketing Digital</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Corretores</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Imobiliárias</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Construtoras</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+
+                    <!-- Grupo 3 (Segurança Ultrawide) -->
+                    <span class="mq-text mq-highlight">Marketing Digital</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Corretores</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Imobiliárias</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                    <span class="mq-text mq-normal">Para Construtoras</span>
+                    <i data-lucide="asterisk" class="mq-icon"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================================
+             Seção: Nosso Método
+             ========================================================================= -->
+        <section class="method-section" id="metodo">
+            <!-- Decoração de Fundo (Glows Sutis) -->
+            <div class="method-bg-decor">
+                <div class="decor-circle"></div>
+                <div class="decor-circle-2"></div>
+            </div>
+
+            <div class="method-container">
+                <!-- Cabeçalho da Seção -->
+                <div class="method-header method-reveal">
+                    <div class="eyebrow-pill">
+                        <i data-lucide="crosshair" class="icon-purple icon-sm"></i>
+                        <span class="pill-text">Nosso Método</span>
+                    </div>
+                    <h2 class="method-title">
+                        Entenda como transformamos <br>
+                        <span class="gradient-text font-bold">anúncios em VGV</span>
+                    </h2>
+                    <p class="method-subtitle">
+                        Em poucos minutos, você vai entender por que não trabalhamos como as agências tradicionais do mercado imobiliário.
+                    </p>
+                </div>
+
+                <!-- Mockup de Notebook (Zoom-Out Effect) -->
+                <div class="zoom-mockup-wrapper">
+                    <div class="macbook-front-mockup">
+                        <!-- Tampa da Tela (Bezel) -->
+                        <div class="macbook-screen-bezel">
+                            <div class="macbook-camera"></div>
+                            <!-- A Tela do Notebook (Proporção Exata 16:9 para o YouTube) -->
+                            <div class="macbook-screen-content">
+                                <iframe 
+                                    id="youtube-player"
+                                    class="mockup-video" 
+                                    src="" 
+                                    data-src="https://www.youtube.com/embed/UUm7d7HjxWo?si=WcL0UW9cTjkQzB12&controls=1&rel=0&modestbranding=1&playsinline=1&autoplay=1&origin=https://youtube.com" 
+                                    title="Apresentação WF Company" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                                
+                                <!-- Capa (Poster) com Botão Animado e Logo -->
+                                <div class="video-overlay-ui" id="video-cover">
+                                    <img src="simbolo-wf-logo.png" alt="WF Company" class="cover-logo-center">
+                                    <div class="play-button-glass">
+                                        <i data-lucide="play" class="icon-play-solid"></i>
+                                    </div>
+                                    <span class="video-label">Assistir Apresentação</span>
+                                </div>
+                            </div>
+                            <div class="macbook-brand">MacBook Pro</div>
+                        </div>
+                        
+                        <!-- Base Inferior do Notebook (Chassi) -->
+                        <div class="macbook-base-front">
+                            <div class="macbook-trackpad-notch"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Principal da Seção -->
+                <div class="method-cta method-reveal-cta">
+                    <a href="#" class="btn-animated-gradient btn-large">
+                        Quero aplicar esse método na minha operação
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- =========================================================================
+             Seção: Serviços Oferecidos (Bento Grid)
+             ========================================================================= -->
+        <section class="services-section" id="servicos">
+            <div class="services-container">
+                <!-- Cabeçalho -->
+                <div class="services-header section-reveal-srv">
+                    <div class="eyebrow-pill dark-pill">
+                        <i data-lucide="layers" class="icon-purple icon-sm"></i>
+                        <span class="pill-text">Serviços Oferecidos</span>
+                    </div>
+                    <h2 class="services-title">
+                        O que vamos te <span class="gradient-text-purple font-bold">entregar</span>
+                    </h2>
+                </div>
+
+                <!-- Bento Grid -->
+                <div class="bento-grid">
+                    <!-- Card 4: Estratégias (O Diferencial - Largo) -->
+                    <div class="bento-card bento-large bento-highlight bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="brain-circuit"></i></div>
+                        <div class="bento-content">
+                            <span class="bento-badge">Nosso Diferencial</span>
+                            <h3>Desenvolvimento de Estratégias</h3>
+                            <p>Aqui está o diferencial da nossa agência. Entregamos estratégias únicas baseadas nos Níveis de Consciência do seu público alvo.</p>
+                        </div>
+                        <i data-lucide="brain-circuit" class="bento-bg-icon"></i>
+                    </div>
+
+                    <!-- Card 1: Ads (Pequeno) -->
+                    <div class="bento-card bento-small bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="mouse-pointer-click"></i></div>
+                        <div class="bento-content">
+                            <h3>Gestão de Anúncios Online</h3>
+                            <p>Anúncios no Meta Ads, Google Ads e Tiktok Ads. Anúncios inteligentes e Remarketing.</p>
+                        </div>
+                        <i data-lucide="mouse-pointer-click" class="bento-bg-icon"></i>
+                    </div>
+
+                    <!-- Card 3: Landing Pages (Pequeno) -->
+                    <div class="bento-card bento-small bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="layout-template"></i></div>
+                        <div class="bento-content">
+                            <h3>Criação de Landing Pages</h3>
+                            <p>Vamos desenvolver uma página seguindo o nosso modelo de alta conversão.</p>
+                        </div>
+                        <i data-lucide="layout-template" class="bento-bg-icon"></i>
+                    </div>
+
+                    <!-- Card 6: Vídeos (Largo) -->
+                    <div class="bento-card bento-large bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="video"></i></div>
+                        <div class="bento-content">
+                            <h3>Gravação e Edição de Vídeos</h3>
+                            <p>Oferecemos gravação com Drone + câmera para geração de conteúdo incrível.</p>
+                        </div>
+                        <i data-lucide="video" class="bento-bg-icon"></i>
+                    </div>
+
+                    <!-- Card 2: Social Media (Médio) -->
+                    <div class="bento-card bento-medium bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="share-2"></i></div>
+                        <div class="bento-content">
+                            <h3>Gestão de Mídia Social</h3>
+                            <p>Vamos organizar, cuidar e desenvolver o perfil da sua imobiliária de maneira inteligente e estratégica.</p>
+                        </div>
+                        <i data-lucide="share-2" class="bento-bg-icon"></i>
+                    </div>
+
+                    <!-- Card 5: Identidade Visual (Médio) -->
+                    <div class="bento-card bento-medium bento-anim">
+                        <div class="bento-icon-wrapper"><i data-lucide="palette"></i></div>
+                        <div class="bento-content">
+                            <h3>Criação de Identidade Visual</h3>
+                            <p>Desenvolvemos o seu Logotipo de forma que realmente mostre a essência da sua marca.</p>
+                        </div>
+                        <i data-lucide="palette" class="bento-bg-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bibliotecas Externas (CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Scripts de Interação -->
+    <script>
+        // Iniciar ícones Lucide
+        lucide.createIcons();
+
+        // Iniciar GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!prefersReducedMotion) {
+            // Aplicar initial states imediatamente para evitar FOUC
+            gsap.set('.bg-photo-texture', { scale: 1.15, opacity: 0 });
+            gsap.set('.floating-logo-1', { opacity: 0, scale: 0.8, rotation: 0 });
+            gsap.set('.floating-logo-2', { opacity: 0, x: -100, rotation: -40 });
+            gsap.set('.floating-logo-3', { opacity: 0, y: 100, rotation: 0 });
+            gsap.set('.static-blob', { opacity: 0, scale: 0.8 });
+            
+            // Entrada de direções diferentes + blur
+            gsap.set('.hero-pill', { opacity: 0, y: -30, filter: 'blur(12px)' }); // De cima
+            gsap.set('.hero-title-anim', { opacity: 0, y: 30, filter: 'blur(16px)' }); // De baixo
+            gsap.set('.hero-subtitle-anim', { opacity: 0, x: -30, filter: 'blur(12px)' }); // Da esquerda
+            gsap.set('.hero-actions-anim', { opacity: 0, y: 30, filter: 'blur(10px)' }); // De baixo
+            gsap.set('.corner-chip', { opacity: 0, x: 30, filter: 'blur(12px)' }); // Da direita
+
+            // Lenis: Smooth Scroll
+            const lenis = new Lenis({
+                lerp: 0.08,
+                smoothWheel: true,
+                orientation: 'vertical'
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        // Controle de FOUC
+        window.addEventListener('load', () => {
+            document.body.classList.remove('loading');
+            
+            if (!prefersReducedMotion) {
+                initGSAPAnimations();
+            }
+        });
+
+        function initGSAPAnimations() {
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+            // Coreografia Cinematográfica
+            tl.to('.bg-photo-texture', { scale: 1.02, opacity: 0.15, duration: 3, ease: 'power2.out' }, 0)
+              .to('.floating-logo-1', { opacity: 0.08, scale: 1, rotation: 15, duration: 4, ease: 'power2.out' }, 0)
+              .to('.floating-logo-2', { opacity: 0.04, x: 0, rotation: -15, duration: 3, ease: 'power3.out' }, 0.2)
+              .to('.floating-logo-3', { opacity: 0.06, y: 0, rotation: 30, duration: 3.5, ease: 'power2.out' }, 0.4)
+              .to('.static-blob', { opacity: 1, scale: 1, duration: 2, stagger: 0.15 }, 0.2)
+              .to('.hero-pill', { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2 }, 0.4)
+              .to('.hero-title-anim', { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.4 }, 0.5)
+              .to('.hero-subtitle-anim', { x: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2 }, 0.7)
+              .to('.hero-actions-anim', { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: 'back.out(1.2)' }, 0.9)
+              .to('.corner-chip', { x: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2 }, 1.1);
+
+            // Scroll Parallax - Efeito de afastamento da câmera (Zoom Out)
+            gsap.to('.hero-content', {
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                },
+                y: -120,
+                opacity: 0,
+                scale: 0.95
+            });
+
+            // O background aprofunda para baixo simulando a câmera saindo do ambiente 3D
+            gsap.to('.hero-bg-layer', {
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                },
+                y: 150,
+                scale: 1.05
+            });
+
+            // Animação Dinâmica de Texto no Bullet (Pill)
+            const pillWords = ["Especialistas em VGV", "Alta Performance", "Marketing Premium"];
+            let currentWordIndex = 0;
+            const pillTextElement = document.querySelector('.pill-text');
+
+            if (pillTextElement) {
+                pillTextElement.textContent = pillWords[0];
+
+                setInterval(() => {
+                    const nextWordIndex = (currentWordIndex + 1) % pillWords.length;
+                    
+                    // Anima saindo (para cima e com blur)
+                    gsap.to(pillTextElement, {
+                        y: -10,
+                        opacity: 0,
+                        filter: 'blur(4px)',
+                        duration: 0.4,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            // Troca a palavra
+                            pillTextElement.textContent = pillWords[nextWordIndex];
+                            // Anima entrando (vem de baixo, focado)
+                            gsap.fromTo(pillTextElement, 
+                                { y: 10, opacity: 0, filter: 'blur(4px)' },
+                                { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.4, ease: 'power2.out' }
+                            );
+                            currentWordIndex = nextWordIndex;
+                        }
+                    });
+                }, 3000);
+            }
+
+            // =========================================================================
+            // Animações: Seção Nosso Método
+            // =========================================================================
+            
+            // Textos descendo suavemente
+            gsap.from('.method-reveal', {
+                scrollTrigger: {
+                    trigger: '.method-section',
+                    start: 'top 80%',
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            // Efeito Zoom-Out do Macbook (Entra elegante sem cobrir os textos)
+            gsap.fromTo('.macbook-front-mockup', 
+                { 
+                    scale: 1.3, // Reduzido de 3 para não sobrepor o texto absurdamente
+                    y: 60,
+                    opacity: 0
+                },
+                {
+                    scrollTrigger: {
+                        trigger: '.zoom-mockup-wrapper',
+                        start: 'top 90%', // Inicia um pouco antes
+                        end: 'center 50%',
+                        scrub: 1.2
+                    },
+                    scale: 1, 
+                    y: 0,
+                    opacity: 1,
+                    ease: 'power1.out'
+                }
+            );
+
+            // Botão CTA aparece por último
+            gsap.from('.method-reveal-cta', {
+                scrollTrigger: {
+                    trigger: '.zoom-mockup-wrapper',
+                    start: 'center 70%',
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out'
+            });
+
+            // =========================================================================
+            // Lógica do Switch Dinâmico para Dark Mode (Smooth Transition)
+            // =========================================================================
+            ScrollTrigger.create({
+                trigger: '.services-section',
+                start: 'top 40%', // O tema escurece quando a seção passa um pouco do meio da tela
+                end: 'bottom 50%', // Volta a clarear ao passar a seção
+                onEnter: () => document.body.classList.add('dark-mode-active'),
+                onLeaveBack: () => document.body.classList.remove('dark-mode-active')
+            });
+
+            // =========================================================================
+            // Animações: Seção Serviços Oferecidos (Bento Grid)
+            // =========================================================================
+            gsap.from('.section-reveal-srv', {
+                scrollTrigger: {
+                    trigger: '.services-section',
+                    start: 'top 80%',
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.bento-anim', {
+                scrollTrigger: {
+                    trigger: '.bento-grid',
+                    start: 'top 85%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'back.out(1.2)'
+            });
+
+            // =========================================================================
+            // Lógica do Player de Vídeo Customizado (Lazy Load Autoplay)
+            // =========================================================================
+            const videoCover = document.getElementById('video-cover');
+            const ytPlayer = document.getElementById('youtube-player');
+
+            if (videoCover && ytPlayer) {
+                videoCover.addEventListener('click', () => {
+                    // Esconde a capa
+                    videoCover.classList.add('hidden');
+                    
+                    // Injeta a URL com autoplay na mesma hora do clique, evitando o bloqueio local (Erro 153)
+                    if (!ytPlayer.src) {
+                        ytPlayer.src = ytPlayer.getAttribute('data-src');
+                    }
+                });
+            }
+
+            // Inicializa Ícones para os novos elementos
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

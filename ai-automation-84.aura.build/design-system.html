@@ -1,0 +1,978 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8"/>
+  <title>AI Automation Agency &mdash; living Design System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Original stylesheet assets -->
+  <link href="assets/6613e96467593fa3_css2.css" rel="stylesheet"/>
+  <script src="assets/176e894661aa9cdc_3.4.17"></script>
+  <script src="assets/40bee90e38803be1_lucide.min.js"></script>
+  <script src="assets/bb5139cfaf0aeceb_iconify.min.js"></script>
+
+  <!-- Original Custom Styles -->
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-serif-custom { font-family: 'Newsreader', serif; }
+    html { scroll-behavior: smooth; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Floating animation for cards */
+    @keyframes float-subtle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float { animation: float-subtle 6s ease-in-out infinite; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-500 { animation-delay: 500ms; }
+    /* Beam Animation */
+    @keyframes dash-flow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -1000; }
+    }
+    .animate-beam {
+      stroke-dasharray: 40 400; /* Beam length, Gap length */
+      animation: dash-flow 10s linear infinite;
+    }
+    /* Button Gradient Border */
+    [style*="--border-gradient"]::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: var(--border-radius-before, inherit);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      background: var(--border-gradient);
+      pointer-events: none;
+    }
+    [style*="--border-gradient"] {
+      position: relative;
+    }
+  </style>
+
+  <!-- Custom documentation site styling (ds- prefixed to avoid namespace collision) -->
+  <style>
+    .ds-anchor {
+      scroll-margin-top: 5rem;
+    }
+    .ds-nav-link {
+      transition: all 0.2s ease;
+    }
+    .ds-nav-link:hover {
+      color: #38bdf8;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .ds-section {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6rem 0;
+    }
+    .ds-section-title {
+      font-size: 2.25rem;
+      font-weight: 400;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+    }
+    .ds-section-desc {
+      font-size: 1.125rem;
+      color: #a1a1aa;
+      margin-bottom: 3.5rem;
+      max-width: 48rem;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    /* Typography Preview Table styling */
+    .ds-type-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .ds-type-row {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .ds-type-row:last-child {
+      border-bottom: none;
+    }
+    .ds-type-cell {
+      padding: 2.5rem 0;
+      vertical-align: middle;
+    }
+    .ds-type-meta {
+      width: 25%;
+      color: #71717a;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .ds-type-preview {
+      width: 55%;
+    }
+    .ds-type-spec {
+      width: 20%;
+      text-align: right;
+      color: #a1a1aa;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    /* Swatch Grid classes */
+    .ds-color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .ds-color-card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+      background-color: #0c0c0e;
+      transition: border-color 0.2s;
+    }
+    .ds-color-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+    .ds-color-swatch {
+      height: 140px;
+      width: 100%;
+    }
+    .ds-color-info {
+      padding: 1.25rem;
+    }
+    .ds-color-name {
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+    .ds-color-hex {
+      font-family: monospace;
+      color: #38bdf8;
+      font-size: 0.85rem;
+    }
+    .ds-color-desc {
+      font-size: 0.8rem;
+      color: #71717a;
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+    /* Component Showcase grids */
+    .ds-comp-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+    .ds-comp-row {
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 1.25rem;
+      padding: 3rem;
+      background-color: rgba(255, 255, 255, 0.02);
+      position: relative;
+    }
+    .ds-comp-label {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #09090b;
+      padding: 0 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #38bdf8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.375rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .ds-states-flex {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3rem;
+    }
+    .ds-state-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .ds-state-title {
+      font-size: 0.7rem;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    /* Simulated States adjustments to force visuals */
+    .sim-hover {
+      box-shadow: 0 0 25px rgba(14, 165, 233, 0.35) !important;
+      transform: translateY(-2px) !important;
+    }
+    .sim-hover span.opacity-0 {
+      opacity: 100 !important;
+    }
+    .sim-hover span.group-hover\:opacity-0 {
+      opacity: 0 !important;
+    }
+    .sim-active {
+      transform: scale(0.96) !important;
+      opacity: 0.8 !important;
+    }
+    .sim-focus {
+      outline: 2px solid #38bdf8 !important;
+      outline-offset: 4px !important;
+    }
+    .sim-disabled {
+      opacity: 0.3 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+    }
+    /* Icons Spec list */
+    .ds-icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 2rem;
+    }
+    .ds-icon-card {
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      background: #0c0c0e;
+      transition: all 0.2s;
+    }
+    .ds-icon-card:hover {
+      border-color: rgba(56, 189, 248, 0.25);
+    }
+    .ds-icon-wrapper {
+      color: #38bdf8;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      border-radius: 0.75rem;
+    }
+    .ds-icon-name {
+      font-size: 0.8rem;
+      color: #a1a1aa;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body class="bg-[#09090b] text-zinc-400 antialiased selection:bg-sky-500/30 selection:text-sky-200">
+
+  <!-- Pinned Sticky Top Navigation Bar -->
+  <div class="fixed top-0 left-0 right-0 h-16 bg-zinc-950/90 backdrop-blur-md border-b border-white/10 z-[9999] flex items-center justify-between px-6 md:px-12">
+    <div class="flex items-center gap-2">
+      <div class="flex text-white bg-gradient-to-br from-sky-500 to-blue-600 w-8 h-8 rounded-full items-center justify-center shadow-[0_0_15px_rgba(14,165,233,0.4)]">
+        <svg aria-hidden="true" class="w-[20px] h-[20px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 10c4.418 0 8-1.79 8-4s-3.582-4-8-4s-8 1.79-8 4s3.582 4 8 4" fill="#ffffff"></path>
+          <path d="M4 12v6c0 2.21 3.582 4 8 4s8-1.79 8-4v-6c0 2.21-3.582 4-8 4s-8-1.79-8-4" fill="#ffffff" opacity=".5"></path>
+          <path d="M4 6v6c0 2.21 3.582 4 8 4s8-1.79 8-4V6c0 2.21-3.582 4-8 4S4 8.21 4 6" fill="#ffffff" opacity=".7"></path>
+        </svg>
+      </div>
+      <span class="text-sm font-semibold text-white tracking-tight">AI Automation Design System</span>
+    </div>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="#hero" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Hero Clone</a>
+      <a href="#typography" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Tipografia</a>
+      <a href="#colors" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Cores</a>
+      <a href="#components" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Componentes</a>
+      <a href="#layouts" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Layouts</a>
+      <a href="#motion" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">Movimento</a>
+      <a href="#icons" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors">&Iacute;cones</a>
+    </div>
+  </div>
+
+  <!-- SECTION 0: Hero Original Centered Card Experience with WebGL shader background -->
+  <div class="ds-anchor" id="hero"></div>
+  
+  <div class="relative w-full min-h-screen bg-[#09090b] lg:bg-[#020408] flex flex-col lg:items-center lg:justify-center p-0 lg:p-8 pt-16">
+    
+    <!-- Ingest Aura WebGL background shader component -->
+    <div class="aura-background-component absolute inset-0 w-full h-full -z-10" data-alpha-mask="80" style="mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent)">
+      <div class="absolute inset-0 bg-black -z-10"></div>
+      <div class="aura-background-component absolute inset-0 w-full h-full" data-alpha-mask="80" style="-webkit-mask-image: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 80%, rgba(255,255,255,0) 100%); mask-image: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 80%, rgba(255,255,255,0) 100%); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 100% 100%; mask-size: 100% 100%;">
+        <div class="absolute inset-0 w-full h-full bg-neutral-950" data-us-project="XxCmD31vVBmiINgvYCho"></div>
+        <script type="text/javascript">
+          !function () {
+            if (!window.UnicornStudio) {
+              window.UnicornStudio = { isInitialized: !1 };
+              var i = document.createElement("script");
+              i.src = "assets/298e0c1ae699b618_unicornStudio.umd.js",
+              i.onload = function () {
+                window.UnicornStudio.isInitialized || (UnicornStudio.init(), window.UnicornStudio.isInitialized = !0)
+              },
+              (document.head || document.body).appendChild(i)
+            }
+          }();
+        </script>
+      </div>
+    </div>
+
+    <!-- Verbatim Hero HTML (with correctly closed main tag) -->
+    <main class="min-h-screen overflow-hidden flex flex-col lg:max-w-[1400px] lg:min-h-[900px] lg:rounded-[2.5rem] lg:border lg:border-white/10 lg:shadow-2xl lg:shadow-black bg-black/20 w-full relative backdrop-blur-xl">
+<!-- Grid Lines Background -->
+<div class="absolute inset-0 w-full h-full pointer-events-none z-0 flex justify-between px-6 md:px-12 opacity-50 md:opacity-100">
+<div class="w-px h-full bg-white/5"></div>
+<div class="w-px h-full bg-white/5 hidden sm:block"></div>
+<div class="w-px h-full bg-white/5 hidden md:block"></div>
+<div class="w-px h-full bg-white/5 hidden lg:block"></div>
+<div class="w-px h-full bg-white/5 hidden xl:block"></div>
+<div class="w-px h-full bg-white/5"></div>
+</div>
+<!-- Navigation -->
+<nav class="relative z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-8">
+<!-- Logo -->
+<div class="flex items-center gap-2">
+<div class="flex text-white bg-gradient-to-br from-sky-500 to-blue-600 w-8 h-8 rounded-full shadow-[0_0_15px_rgba(14,165,233,0.4)] items-center justify-center">
+<svg aria-hidden="true" class="w-[20px] h-[20px]" data-icon="solar:box-bold-duotone" data-icon-replaced="true" data-icon-set="solar" data-solar="database-bold-duotone" data-width="20" height="20" role="img" stroke-width="2" style="width: 20px; height: 20px; color: rgb(255, 255, 255);" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 10c4.418 0 8-1.79 8-4s-3.582-4-8-4s-8 1.79-8 4s3.582 4 8 4" fill="#ffffff"></path>
+<path d="M4 12v6c0 2.21 3.582 4 8 4s8-1.79 8-4v-6c0 2.21-3.582 4-8 4s-8-1.79-8-4" fill="#ffffff" opacity=".5"></path>
+<path d="M4 6v6c0 2.21 3.582 4 8 4s8-1.79 8-4V6c0 2.21-3.582 4-8 4S4 8.21 4 6" fill="#ffffff" opacity=".7"></path>
+</svg>
+</div>
+</div>
+<!-- Desktop Menu -->
+<div class="hidden shadow-black/20 md:flex bg-gradient-to-br from-white/10 to-white/0 rounded-full pt-1 pr-1 pb-1 pl-1 shadow-lg backdrop-blur-md gap-x-1 gap-y-1 items-center" style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)); --border-radius-before: 9999px">
+<a class="transition-all text-sm font-medium text-white bg-white/10 rounded-full pt-1.5 pr-4 pb-1.5 pl-4 shadow-sm" href="#" style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)); --border-radius-before: 9999px">
+            Services
+          </a>
+<a class="px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white transition-colors" href="#">
+            Solutions
+          </a>
+<a class="px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white transition-colors" href="#">
+            Case Studies
+          </a>
+<a class="px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white transition-colors" href="#">
+            About
+          </a>
+</div>
+<!-- CTA -->
+<button class="hidden sm:flex hover:from-blue-500 hover:to-blue-600 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all flex text-sm font-medium text-white bg-gradient-to-b from-blue-600 to-blue-700 rounded-full pt-2.5 pr-5 pb-2.5 pl-5 shadow-[0px_0px_0px_1px_rgba(37,99,235,1),inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur-sm gap-x-2 gap-y-x-2 items-center" style="position: relative; --border-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1)); --border-radius-before: 9999px">
+<span class="text-sm font-medium text-white tracking-tight">
+            Book a Call
+          </span>
+<svg aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4 text-blue-100" data-lucide="arrow-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</button>
+<!-- Mobile Menu Icon -->
+<button class="md:hidden text-zinc-400 hover:text-white">
+<svg aria-hidden="true" class="lucide lucide-menu w-6 h-6" data-lucide="menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+</button>
+</nav>
+<!-- Content Area -->
+<div class="flex-1 z-20 flex flex-col md:flex-row h-full relative">
+<!-- Mobile Gradient Overlay for Readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-[#09090b]/90 via-[#09090b]/60 to-transparent md:hidden z-10 pointer-events-none"></div>
+<!-- Left: Text Content -->
+<div class="w-full md:w-[50%] lg:w-[45%] px-6 md:px-12 pt-8 md:pt-24 z-30 pointer-events-none flex flex-col justify-start md:justify-between pb-12 h-full">
+<div class="pointer-events-auto max-w-xl mx-auto md:mx-0">
+<!-- Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-medium tracking-wide mb-6 shadow-[0_0_10px_rgba(14,165,233,0.15)]">
+<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
+              AI AUTOMATION AGENCY
+            </div>
+<!-- Title -->
+<h1 class="leading-[0.95] sm:text-6xl lg:text-8xl md:leading-[0.9] md:mb-8 md:text-6xl text-6xl font-normal text-white tracking-tight font-serif-custom mb-8 drop-shadow-2xl">
+              Design System &
+              <span class="bg-clip-text italic text-transparent bg-gradient-to-r from-sky-400 to-blue-600 pr-2">
+                Pattern Library
+              </span>
+</h1>
+<!-- Description -->
+<p class="text-lg md:text-xl lg:text-2xl leading-relaxed text-zinc-400 mb-8 md:mb-12 max-w-md font-light">
+              A living reference of custom UI tokens, animations, components, and layout patterns extracted directly from the AI Automation Agency design.
+            </p>
+<!-- Buttons -->
+<div class="flex flex-col sm:flex-row gap-4 mb-16 md:mb-20 w-full flex-none">
+<!-- Primary -->
+<button class="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center w-full sm:w-auto flex-none">
+<span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#38bdf8_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+<span class="absolute inset-0 rounded-full bg-zinc-800 transition-opacity duration-300 group-hover:opacity-0"></span>
+<span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-800 to-zinc-950 w-full h-full rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] group-hover:bg-gradient-to-b group-hover:from-zinc-900 group-hover:to-black">
+<span class="relative z-10">Explore Components</span>
+<svg aria-hidden="true" class="lucide lucide-chevron-right w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-0.5" data-lucide="chevron-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m9 18 6-6-6-6"></path></svg>
+</span>
+</button>
+<!-- Secondary -->
+<button class="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center w-full sm:w-auto flex-none">
+<span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#a1a1aa_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+<span class="absolute inset-0 rounded-full bg-zinc-800 transition-opacity duration-300 group-hover:opacity-0"></span>
+<span class="flex items-center justify-center gap-2 transition-colors duration-300 text-zinc-300 group-hover:text-white text-sm font-medium bg-black w-full h-full rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+<svg aria-hidden="true" class="lucide lucide-file-text w-4 h-4 relative z-10" data-lucide="file-text" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+<span class="relative z-10">View Specifications</span>
+</span>
+</button>
+</div>
+<!-- Trusted By Section -->
+<div class="border-white/10 border-t mt-auto pt-8" style="mask-image: linear-gradient(90deg, transparent, black 5%, black 70%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 5%, black 70%, transparent);">
+<p class="uppercase md:text-left text-xs font-semibold text-zinc-500 tracking-widest text-center mb-6 ml-4">
+                Trusted by founders and teams at
+              </p>
+<div class="flex flex-wrap md:justify-start gap-8 md:gap-10 hover:grayscale-0 hover:opacity-100 transition-all duration-500 opacity-50 ml-4 grayscale invert brightness-200 gap-x-8 gap-y-8 items-center justify-center">
+<svg aria-hidden="true" class="w-[96px] h-[36px]" data-icon="logos:linear" data-icon-replaced="true" data-icon-set="logos" data-logos="asana" height="36" role="img" stroke-width="2" style="color: rgb(0, 0, 0); width: 96px; height: 36px" viewbox="0 0 512 102" width="96" xmlns="http://www.w3.org/2000/svg">
+<path d="m499.094 77.034l.001.008c.31 3.53 3.133 8.022 8.024 8.022h2.862c1.11 0 2.019-.91 2.019-2.02V20.107h-.013a2.02 2.02 0 0 0-2.006-1.91h-8.868a2.02 2.02 0 0 0-2.007 1.91h-.011v5.114c-5.433-6.697-14-9.477-22.589-9.477c-19.526 0-35.354 15.84-35.354 35.382s15.828 35.383 35.354 35.383v.002c8.59 0 17.95-3.335 22.588-9.476m-22.554-2.91c-12.418 0-22.486-10.296-22.486-23c0-12.7 10.068-22.998 22.486-22.998s22.484 10.298 22.484 22.999c0 12.576-9.866 22.794-22.112 22.997zm-46.599 5.083l-.004-32.568h.001c0-18.359-11.573-30.744-30.028-30.744c-8.81 0-16.03 5.098-18.581 9.477l-.043-.25l-.047-.252l-.026-.125l-.055-.251l-.06-.25l-.065-.25l-.072-.248a10 10 0 0 0-.16-.492l-.09-.243c-.98-2.538-3.055-4.662-7.384-4.662h-2.87c-1.111 0-2.019.91-2.019 2.02v62.944h.012a2.02 2.02 0 0 0 2.007 1.91h8.868c.136 0 .269-.017.397-.042l.058-.015l.113-.036l.133-.038l.064-.023l.077-.036l.255-.143a2 2 0 0 0 .169-.126l.08-.07c.012-.013.028-.021.04-.033a2 2 0 0 0 .62-1.348h.011v-37.18c0-9.86 7.988-17.853 17.841-17.853s17.84 7.994 17.84 17.854l.009 31.077l.002-.011l.004.085v6.028h.012a2.02 2.02 0 0 0 2.007 1.91h8.868c.136 0 .269-.017.397-.042c.053-.01.101-.03.152-.045l.146-.042l.071-.025c.073-.03.139-.072.207-.11c.042-.024.086-.042.127-.069c.081-.053.156-.118.23-.183l.058-.048q.083-.08.156-.17l.086-.11a2 2 0 0 0 .364-.93l.013-.136h.011v-4.105zm-92.354-2.173v.008c.311 3.53 3.134 8.022 8.025 8.022h2.862c1.11 0 2.017-.91 2.017-2.02V20.107h-.011a2.02 2.02 0 0 0-2.006-1.91h-8.868a2.02 2.02 0 0 0-2.008 1.91h-.01v5.114c-5.434-6.697-14-9.477-22.59-9.477c-19.525 0-35.353 15.84-35.353 35.382s15.828 35.383 35.353 35.383v.002c8.59 0 17.952-3.335 22.589-9.476m-22.555-2.91c-12.417 0-22.484-10.296-22.484-23c0-12.7 10.067-22.998 22.484-22.998c12.419 0 22.484 10.298 22.484 22.999c0 12.576-9.865 22.794-22.112 22.997zm-87.829-6.096c5.92 4.104 12.382 6.097 18.591 6.097c1.22 0 2.448-.13 3.63-.384l.353-.08q.263-.062.523-.134l.344-.098q.172-.051.341-.105l.336-.113c.78-.271 1.52-.601 2.205-.988l.29-.169c2.385-1.436 4.01-3.586 4.01-6.34c0-3.709-3.604-5.789-8.24-7.332l-.54-.175l-.273-.087l-.551-.169l-.559-.165l-.564-.162l-.857-.238l-.865-.231l-1.162-.302l-2.905-.74l-1.143-.298l-.844-.227l-.555-.154l-.546-.156l-.27-.079l-.535-.16l-.263-.08l-.52-.166q-.256-.084-.508-.169c-8.374-2.847-15.587-8.735-15.587-18.268c0-14.589 12.989-20.614 25.111-20.614c7.681 0 15.607 2.535 20.745 6.166c.971.737 1.084 1.533.989 2.102l-.023.118l-.029.11l-.032.103l-.034.094l-.035.084l-.05.107l-.044.082l-.05.082l-4.905 7.01q-.046.067-.096.13l-.103.128c-.554.644-1.414 1.09-2.586.427l-.17-.102l-.855-.54l-.307-.187l-.337-.2l-.241-.14l-.255-.143l-.133-.074l-.275-.149l-.288-.15l-.3-.154l-.315-.154l-.327-.155l-.34-.155l-.352-.154l-.365-.153l-.377-.15a23.4 23.4 0 0 0-8.51-1.6c-7.396 0-11.851 3.42-11.851 7.656c0 2.407 1.299 4.032 3.388 5.26l.283.162q.648.357 1.382.674l.33.139l.168.068l.34.134l.174.066l.352.13l.358.127l.365.124l.185.061l.375.12l.572.178l.585.173l.596.17l.403.112l.408.111l.828.22l1.48.382l1.423.386l1.07.296l.715.202l.357.102l.713.207l.356.105l.711.214l.708.22c9.779 3.068 18.661 7.754 18.661 19.79c0 12.854-12.014 20.797-25.29 20.797c-10.063 0-18.629-2.87-25.814-8.147c-.904-.906-.88-1.772-.72-2.316l.035-.108l.037-.098l.038-.088l.038-.077l.05-.094l.071-.11l4.88-6.975c.837-1.098 1.857-.949 2.485-.648l.113.058l.103.06zm-34.091 9.006v.008c.31 3.53 3.134 8.022 8.025 8.022H204c1.11 0 2.019-.91 2.019-2.02V20.107h-.013a2.02 2.02 0 0 0-2.006-1.91h-8.868a2.02 2.02 0 0 0-2.008 1.91h-.01v5.114c-5.433-6.697-14-9.477-22.59-9.477c-19.524 0-35.353 15.84-35.353 35.382S151 86.509 170.525 86.509v.002c8.59 0 17.95-3.335 22.588-9.476m-22.554-2.91c-12.418 0-22.485-10.296-22.485-23c0-12.7 10.067-22.998 22.485-22.998s22.484 10.298 22.484 22.999c0 12.576-9.866 22.794-22.112 22.997z" fill="#000000"></path>
+<path d="M85.605 53.532c-13.14 0-23.792 10.652-23.792 23.792s10.652 23.792 23.792 23.792s23.791-10.652 23.791-23.792s-10.651-23.792-23.791-23.792m-61.813.002C10.652 53.534 0 64.184 0 77.324s10.652 23.792 23.792 23.792s23.793-10.652 23.793-23.792s-10.653-23.79-23.793-23.79M78.49 23.79c0 13.141-10.652 23.794-23.792 23.794S30.907 36.932 30.907 23.791C30.907 10.653 41.558 0 54.698 0S78.49 10.653 78.49 23.791" fill="#000000"></path>
+</svg>
+<svg aria-hidden="true" class="w-[96px] h-[36px]" data-icon="logos:stripe" data-icon-replaced="true" data-icon-set="logos" data-logos="graylog" height="36" role="img" stroke-width="2" style="color: rgb(0, 0, 0); width: 96px; height: 36px;" viewbox="0 0 512 164" width="96" xmlns="http://www.w3.org/2000/svg">
+<path class="" d="M0 80.785c0 23.159 14.9 41.111 38.238 41.111c12.926 0 23.877-5.745 29.263-15.439v16.516c0 15.619-10.054 25.852-25.672 25.852c-13.823 0-22.98-7.002-24.954-19.21H.898c3.052 21.005 18.49 33.572 40.93 33.572c25.314 0 41.291-16.517 41.291-42.547V41.65H68.937L67.68 55.651C62.474 45.42 52.062 39.316 38.777 39.316C15.139 39.316.299 57.263.004 80.092zm15.798-.359c0-15.26 9.515-27.287 25.313-27.287s25.672 11.49 25.672 27.287c0 15.596-9.623 27.342-25.24 27.641l-.612.006c-15.439.18-25.133-12.028-25.133-27.647m129.077-39.495c-3.231-.718-5.565-1.077-8.437-1.077c-11.31 0-19.568 5.745-22.98 14.362l-1.077-12.567h-14.9v82.581h15.798V80.426c0-15.798 9.335-24.953 24.236-24.953h7.001V40.93zm30.699 85.274c13.284 0 24.594-5.924 28.903-15.44l1.616 13.285h13.464V72.348c0-22.261-13.823-33.032-34.29-33.032c-21.183 0-35.365 11.31-35.365 28.544h13.823c0-9.874 7.54-15.798 21.004-15.798c11.13 0 19.389 4.847 19.389 18.67v2.334l-26.031 1.975c-19.389 1.436-30.699 10.95-30.699 26.21c0 15.064 10.148 24.704 27.506 24.949zm4.488-12.208c-10.233 0-16.696-4.308-16.696-13.105c0-8.079 5.745-13.464 19.748-14.9l21.183-1.616v4.308c0 15.44-9.155 25.313-24.235 25.313m43.444 47.215c4.309 1.077 8.617 1.615 13.824 1.615c12.746 0 21.004-5.924 26.569-20.106l38.957-101.072h-16.337l-24.415 66.603l-24.056-66.603h-16.696l33.212 86.89l-2.873 7.899c-3.875 10.215-9.65 11.618-17.158 11.667l-11.027.002zm104.842-36.982V0H312.55v124.23zM428.7 80.785c0 23.159 14.9 41.111 38.239 41.111c12.925 0 23.876-5.745 29.262-15.439v16.516c0 15.619-10.053 25.852-25.672 25.852c-13.823 0-22.979-7.002-24.954-19.21h-15.798c3.052 21.005 18.491 33.572 40.932 33.572c25.312 0 41.29-16.517 41.29-42.547V41.65h-14.182l-1.257 14.002c-5.206-10.233-15.619-16.336-28.903-16.336c-23.877 0-38.957 18.31-38.957 41.47m15.978-.359c0-15.26 9.515-27.287 25.313-27.287s25.671 11.49 25.671 27.287c0 15.596-9.622 27.342-25.24 27.641l-.61.006c-15.42.177-24.89-11.717-25.13-27.048zm-64.09-40.572c23.338 0 42.188 18.85 42.188 42.188s-18.85 42.188-42.188 42.188s-42.188-18.85-42.188-42.188s18.85-42.188 42.188-42.188m0 14.362a27.736 27.736 0 0 0-27.826 27.826a27.736 27.736 0 0 0 27.826 27.826a27.736 27.736 0 0 0 27.826-27.826a27.736 27.736 0 0 0-27.826-27.826m3.95 8.976l7.72 15.798c.179.36.538.539.717.539h6.283c1.437 0 2.693 1.256 2.693 2.693c0 1.436-1.077 2.513-2.513 2.513h-9.694c-.36 0-.718-.18-.718-.539l-3.95-8.078l-6.642 24.594c-.18.719-1.257.898-1.616.18l-7.72-15.798c-.179-.36-.538-.539-.718-.539h-6.642c-1.436 0-2.693-1.256-2.693-2.692s1.257-2.693 2.693-2.693h9.694c.36 0 .718.18.718.538l3.95 8.079l6.822-24.415c.18-.718 1.257-.898 1.616-.18" fill="#000000"></path>
+</svg>
+<svg aria-hidden="true" class="w-[96px] h-[36px]" data-icon="logos:vercel" data-icon-replaced="true" data-icon-set="logos" data-logos="google" height="36" role="img" stroke-width="2" style="color: rgb(0, 0, 0); width: 96px; height: 36px;" viewbox="0 0 512 168" width="96" xmlns="http://www.w3.org/2000/svg">
+<path d="m496.052 102.672l14.204 9.469c-4.61 6.79-15.636 18.44-34.699 18.44c-23.672 0-41.301-18.315-41.301-41.614c0-24.793 17.816-41.613 39.308-41.613c21.616 0 32.206 17.193 35.633 26.475l1.869 4.735l-55.692 23.049c4.236 8.348 10.84 12.584 20.183 12.584c9.345 0 15.823-4.61 20.495-11.525M452.384 87.66l37.19-15.45c-2.056-5.17-8.16-8.845-15.45-8.845c-9.281 0-22.176 8.223-21.74 24.295" fill="#000000"></path>
+<path d="M407.407 4.931h17.94v121.85h-17.94z" fill="#000000"></path>
+<path d="M379.125 50.593h17.318V124.6c0 30.711-18.128 43.357-39.558 43.357c-20.183 0-32.33-13.58-36.878-24.606l15.885-6.604c2.865 6.79 9.78 14.827 20.993 14.827c13.767 0 22.24-8.535 22.24-24.482v-5.98h-.623c-4.112 4.983-11.961 9.468-21.928 9.468c-20.807 0-39.87-18.128-39.87-41.488c0-23.486 19.063-41.8 39.87-41.8c9.905 0 17.816 4.423 21.928 9.282h.623zm1.245 38.499c0-14.702-9.78-25.417-22.239-25.417c-12.584 0-23.174 10.715-23.174 25.417c0 14.514 10.59 25.042 23.174 25.042c12.46.063 22.24-10.528 22.24-25.042" fill="#000000"></path>
+<path d="M218.216 88.78c0 23.984-18.688 41.613-41.613 41.613c-22.924 0-41.613-17.691-41.613-41.613c0-24.108 18.689-41.675 41.613-41.675c22.925 0 41.613 17.567 41.613 41.675m-18.19 0c0-14.95-10.84-25.23-23.423-25.23S153.18 73.83 153.18 88.78c0 14.826 10.84 25.23 23.423 25.23c12.584 0 23.423-10.404 23.423-25.23" fill="#000000"></path>
+<path d="M309.105 88.967c0 23.984-18.689 41.613-41.613 41.613c-22.925 0-41.613-17.63-41.613-41.613c0-24.108 18.688-41.613 41.613-41.613c22.924 0 41.613 17.443 41.613 41.613m-18.253 0c0-14.95-10.839-25.23-23.423-25.23s-23.423 10.28-23.423 25.23c0 14.826 10.84 25.23 23.423 25.23c12.646 0 23.423-10.466 23.423-25.23" fill="#000000"></path>
+<path d="M66.59 112.328c-26.102 0-46.534-21.056-46.534-47.158c0-26.101 20.432-47.157 46.534-47.157c14.079 0 24.357 5.544 31.957 12.646l12.522-12.521C100.479 7.984 86.338.258 66.59.258C30.833.259.744 29.414.744 65.17s30.089 64.912 65.846 64.912c19.312 0 33.889-6.354 45.289-18.19c11.711-11.712 15.324-28.158 15.324-41.489c0-4.174-.498-8.472-1.059-11.649H66.59v17.318h42.423c-1.246 10.84-4.672 18.253-9.718 23.298c-6.105 6.168-15.76 12.958-32.705 12.958" fill="#000000"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Visualization -->
+<div class="absolute inset-0 pointer-events-none w-full h-full overflow-hidden z-0 opacity-40 md:opacity-100">
+<svg class="w-full h-full" preserveaspectratio="xMidYMid slice" viewbox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="roadGradient" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:0.3"></stop>
+<stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#000000;stop-opacity:0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Main Flow Paths Reference -->
+<path d="M 400 1000 C 600 900, 900 600, 1300 200" fill="none" id="pathMain"></path>
+<!-- Noodles (Visible only on Desktop) -->
+<g class="hidden lg:block">
+<!-- Noodle 1: Left Vertical Track -->
+<rect fill="none" height="400" opacity="0.3" rx="60" stroke="#3f3f46" stroke-width="0.5" transform="rotate(-15 640 800)" width="120" x="580" y="600"></rect>
+<rect class="animate-beam" fill="none" height="400" opacity="0.5" rx="60" stroke="#38bdf8" stroke-linecap="round" stroke-width="1" transform="rotate(-15 640 800)" width="120" x="580" y="600"></rect>
+<!-- Noodle 2: Center Right Track -->
+<rect fill="none" height="450" opacity="0.3" rx="70" stroke="#3f3f46" stroke-width="0.5" transform="rotate(-25 950 525)" width="140" x="880" y="300"></rect>
+<rect class="animate-beam" fill="none" height="450" opacity="0.5" rx="70" stroke="#38bdf8" stroke-linecap="round" stroke-width="1" style="animation-delay: -3s;" transform="rotate(-25 950 525)" width="140" x="880" y="300"></rect>
+<!-- Noodle 3: Top Right Track -->
+<rect fill="none" height="300" opacity="0.3" rx="50" stroke="#3f3f46" stroke-width="0.5" transform="rotate(-35 1100 200)" width="100" x="1050" y="50"></rect>
+<rect class="animate-beam" fill="none" height="300" opacity="0.5" rx="50" stroke="#38bdf8" stroke-linecap="round" stroke-width="1" style="animation-delay: -6s;" transform="rotate(-35 1100 200)" width="100" x="1050" y="50"></rect>
+</g>
+<!-- Background Roads -->
+<path d="M 600 1000 C 700 900, 800 700, 1300 550" fill="none" opacity="0.3" stroke="#1e293b" stroke-linecap="round" stroke-width="30"></path>
+<path d="M 900 1000 C 950 900, 900 700, 1300 450" fill="none" opacity="0.3" stroke="#1e293b" stroke-linecap="round" stroke-width="20"></path>
+<!-- Main Highway -->
+<path d="M 400 1000 C 600 900, 900 600, 1300 200" fill="none" opacity="0.8" stroke="url(#roadGradient)" stroke-linecap="butt" stroke-width="50"></path>
+<path d="M 400 1000 C 600 900, 900 600, 1300 200" fill="none" opacity="0.6" stroke="rgba(255,255,255,0.1)" stroke-dasharray="20 40" stroke-width="2"></path>
+<!-- Moving Data Packet -->
+<rect fill="#0ea5e9" filter="drop-shadow(0 0 10px rgba(14,165,233,0.5))" height="30" opacity="0.95" rx="4" width="60" x="-30" y="-15">
+<animatemotion calcmode="linear" dur="5s" keypoints="0;1" keytimes="0;1" repeatcount="indefinite" rotate="auto">
+<mpath href="#pathMain"></mpath>
+</animatemotion>
+</rect>
+</svg>
+<!-- UI Cards Overlay (Nodes) -->
+<!-- 03: Deliver (Top of stack in corner) -->
+<div class="hidden md:block absolute md:right-8 md:bottom-[20rem] lg:right-[10%] lg:top-[15%] lg:bottom-auto animate-float z-40 transform origin-bottom-right">
+<div class="bg-zinc-900/90 backdrop-blur-md p-5 w-52 rounded-xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col gap-3 relative z-10">
+<div class="flex items-center justify-between border-b border-white/5 pb-3">
+<div class="flex items-center gap-2.5">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-zinc-800 text-[10px] font-bold text-zinc-400">
+                    03
+                  </span>
+<span class="text-xs font-semibold text-zinc-200 uppercase tracking-wide">
+                    Deliver
+                  </span>
+</div>
+<svg aria-hidden="true" class="lucide lucide-server text-zinc-500 w-4 h-4" data-lucide="server" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="8" rx="2" ry="2" width="20" x="2" y="2"></rect><rect height="8" rx="2" ry="2" width="20" x="2" y="14"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+<span class="text-xs text-zinc-400 font-medium">
+                  Agent Active
+                </span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<span class="text-[10px] text-zinc-500 font-mono uppercase">
+                  Latency
+                </span>
+<span class="text-xs text-emerald-400 font-mono font-medium">
+                  12ms
+                </span>
+</div>
+</div>
+</div>
+<!-- 02: Transform (Middle of stack in corner) -->
+<div class="hidden md:block absolute md:right-8 md:bottom-[12rem] lg:right-[25%] lg:bottom-[40%] animate-float delay-200 z-40 transform origin-bottom-right">
+<div class="bg-zinc-900/90 backdrop-blur-md p-5 w-56 rounded-xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col gap-3 relative z-10">
+<div class="flex items-center justify-between border-b border-white/5 pb-3">
+<div class="flex items-center gap-2.5">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-zinc-800 text-[10px] font-bold text-zinc-400">
+                    02
+                  </span>
+<span class="text-xs font-semibold text-zinc-200 uppercase tracking-wide">
+                    Transform
+                  </span>
+</div>
+<svg aria-hidden="true" class="lucide lucide-cpu text-zinc-500 w-4 h-4" data-lucide="cpu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect height="16" rx="2" width="16" x="4" y="4"></rect><rect height="8" rx="1" width="8" x="8" y="8"></rect></svg>
+</div>
+<div class="bg-black/40 p-2.5 rounded border border-white/5">
+<div class="flex gap-1.5 mb-1">
+<div class="w-2 h-2 rounded-full bg-red-500/40"></div>
+<div class="w-2 h-2 rounded-full bg-yellow-500/40"></div>
+<div class="w-2 h-2 rounded-full bg-green-500/40"></div>
+</div>
+<p class="font-mono text-[10px] text-zinc-400 leading-tight">
+<span class="text-purple-400">AGENT</span>
+                  run
+                  <span class="text-purple-400">WHEN</span>
+                  lead &gt; 0.8
+                </p>
+</div>
+</div>
+</div>
+<!-- 01: Ingest (Bottom of stack in corner) -->
+<div class="hidden md:block absolute md:right-8 md:bottom-12 lg:left-[52%] lg:bottom-[12%] lg:right-auto animate-float delay-500 z-40 transform origin-bottom-left">
+<div class="bg-zinc-900/90 backdrop-blur-md p-5 w-52 rounded-xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col gap-3 relative z-10">
+<div class="flex items-center justify-between border-b border-white/5 pb-3">
+<div class="flex items-center gap-2.5">
+<span class="w-5 h-5 rounded flex items-center justify-center bg-zinc-800 text-[10px] font-bold text-zinc-400">
+                    01
+                  </span>
+<span class="text-xs font-semibold text-zinc-200 uppercase tracking-wide">
+                    Ingest
+                  </span>
+</div>
+<svg aria-hidden="true" class="lucide lucide-zap text-zinc-500 w-4 h-4" data-lucide="zap" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded bg-orange-900/30 text-orange-400 flex items-center justify-center text-[10px] border border-orange-500/20">
+<span class="iconify" data-icon="lucide:kafka"></span>
+</div>
+<span class="text-[10px] font-medium text-zinc-400">
+                      Kafka
+                    </span>
+</div>
+<span class="text-[9px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-medium">
+                    Live
+                  </span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded bg-blue-900/30 text-blue-400 flex items-center justify-center text-[10px] border border-blue-500/20">
+<svg aria-hidden="true" data-icon="lucide:database" height="1em" role="img" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+<ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+<path d="M3 5v14a9 3 0 0 0 18 0V5"></path>
+<path d="M3 12a9 3 0 0 0 18 0"></path>
+</g>
+</svg>
+</div>
+<span class="text-[10px] font-medium text-zinc-400">
+                      Postgres
+                    </span>
+</div>
+<span class="text-[9px] text-zinc-600">Syncing</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </main>
+
+  </div>
+
+  <!-- DOCUMENTATION WORKSPACE WRAPPER -->
+  <div class="max-w-[1400px] mx-auto px-6 md:px-12 mt-12 pb-24">
+
+    <!-- Section 1: Typography -->
+    <div class="ds-anchor" id="typography"></div>
+    <section class="ds-section">
+      <h2 class="ds-section-title">1) Tipografia</h2>
+      <p class="ds-section-desc">
+        A hierarquia tipogr&aacute;fica do sistema baseia-se nas fam&iacute;lias <strong>Inter</strong> (para interfaces e blocos regulares de leitura) e <strong>Newsreader</strong> (serifa elegante para t&iacute;tulos expressivos).
+      </p>
+
+      <table class="ds-type-table">
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Heading 1</td>
+          <td class="ds-type-cell ds-type-preview">
+            <h1 class="leading-[0.95] sm:text-6xl lg:text-8xl md:leading-[0.9] text-5xl font-normal text-white tracking-tight font-serif-custom">
+              Automate with <span class="bg-clip-text italic text-transparent bg-gradient-to-r from-sky-400 to-blue-600">AI agents</span>
+            </h1>
+          </td>
+          <td class="ds-type-cell ds-type-spec">60px - 96px / 0.95</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Heading 2</td>
+          <td class="ds-type-cell ds-type-preview">
+            <h2 class="text-3xl font-normal text-white tracking-tight font-serif-custom md:text-6xl">
+              Intelligent workflows powered by <span class="bg-clip-text italic text-transparent bg-gradient-to-r from-sky-400 to-indigo-500">AI agents</span>
+            </h2>
+          </td>
+          <td class="ds-type-cell ds-type-spec">30px - 60px / 1.0</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Heading 3</td>
+          <td class="ds-type-cell ds-type-preview">
+            <h3 class="text-2xl font-medium text-white tracking-tight">Lead Qualification</h3>
+          </td>
+          <td class="ds-type-cell ds-type-spec">24px / 1.1</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Heading 4 (Mono)</td>
+          <td class="ds-type-cell ds-type-preview">
+            <h4 class="text-sm font-medium text-white font-mono">POST /v1/agent/trigger</h4>
+          </td>
+          <td class="ds-type-cell ds-type-spec">14px / 1.2</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Bold L</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-lg font-semibold text-white">Sales Automation</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">18px / 1.4</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Bold M</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-sm font-semibold text-white">Book a free call</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">14px / 1.2</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Bold S</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-xs font-semibold text-zinc-500 tracking-wider">AI AUTOMATION AGENCY</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">12px / 1.2</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Paragraph</td>
+          <td class="ds-type-cell ds-type-preview">
+            <p class="text-lg md:text-xl leading-relaxed text-zinc-400 font-light">
+              We design and deploy AI agents that handle repetitive tasks.
+            </p>
+          </td>
+          <td class="ds-type-cell ds-type-spec">18px - 20px / 1.6</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Regular L</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-base text-zinc-400 font-light">Our agency connects seamlessly with the tools you already use.</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">16px / 1.6</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Regular M</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-sm text-zinc-500 font-light">The AI automation agency for modern teams.</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">14px / 1.5</td>
+        </tr>
+        <tr class="ds-type-row">
+          <td class="ds-type-cell ds-type-meta">Regular S (Mono)</td>
+          <td class="ds-type-cell ds-type-preview">
+            <span class="text-xs text-zinc-500 font-mono">{"source":"crm", "event":"new.lead"}</span>
+          </td>
+          <td class="ds-type-cell ds-type-spec">12px / 1.4</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Section 2: Colors & Surfaces -->
+    <div class="ds-anchor" id="colors"></div>
+    <section class="ds-section">
+      <h2 class="ds-section-title">2) Cores &amp; Superf&iacute;cies</h2>
+      <p class="ds-section-desc">
+        A paleta de cores reflete um tema cibern&eacute;tico escuro, contrastando tons profundos de cinza com destaques azuis neon, ciano e roxo.
+      </p>
+
+      <div class="ds-color-grid">
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #09090b;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Deep Canvas Dark</div>
+            <div class="ds-color-hex">#09090b</div>
+            <div class="ds-color-desc">Cor de fundo prim&aacute;ria da interface de visualiza&ccedil;&atilde;o.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #020408;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Deep Page Background</div>
+            <div class="ds-color-hex">#020408</div>
+            <div class="ds-color-desc">Cor de fundo externa para displays de tela cheia.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #0c0c0e;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Container Matte</div>
+            <div class="ds-color-hex">#0c0c0e</div>
+            <div class="ds-color-desc">Fundo de cards internos e mockups de janelas de c&oacute;digo.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #38bdf8;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Sky Blue (Glow Highlight)</div>
+            <div class="ds-color-hex">#38bdf8</div>
+            <div class="ds-color-desc">Destaque prim&aacute;rio de marca e preenchimento de gradientes.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #6366f1;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Indigo Accent</div>
+            <div class="ds-color-hex">#6366f1</div>
+            <div class="ds-color-desc">Tonalidade secund&aacute;ria para links, fluxos e conex&otilde;es do gr&aacute;fico.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: #a855f7;"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Purple Glow Accent</div>
+            <div class="ds-color-hex">#a855f7</div>
+            <div class="ds-color-desc">Utilizado em tags menores e stops adicionais de gradientes.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: rgba(255,255,255,0.1);"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">White Stroke Border</div>
+            <div class="ds-color-hex">rgba(255,255,255,0.1)</div>
+            <div class="ds-color-desc">Bordas sutis de cards e divis&otilde;es de se&ccedil;&otilde;es.</div>
+          </div>
+        </div>
+        <div class="ds-color-card">
+          <div class="ds-color-swatch" style="background-color: rgba(255,255,255,0.05);"></div>
+          <div class="ds-color-info">
+            <div class="ds-color-name">Faint Grid Line</div>
+            <div class="ds-color-hex">rgba(255,255,255,0.05)</div>
+            <div class="ds-color-desc">Linhas verticais estruturais que desenham o grid de fundo.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: UI Components -->
+    <div class="ds-anchor" id="components"></div>
+    <section class="ds-section">
+      <h2 class="ds-section-title">3) Componentes de Interface</h2>
+      <p class="ds-section-desc">
+        Amostras de elements interativos extra&iacute;dos do site, mostrados em estados simulados lado a lado.
+      </p>
+
+      <div class="ds-comp-grid">
+        
+        <!-- Component A: Primary Action Button -->
+        <div class="ds-comp-row">
+          <div class="ds-comp-label">Bot&atilde;o Prim&aacute;rio (Spinner Glow)</div>
+          <div class="ds-states-flex">
+            
+            <div class="ds-state-item">
+              <div class="ds-state-title">Normal</div>
+              <button class="group inline-flex overflow-hidden transition-all duration-300 rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center flex-none">
+                <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#38bdf8_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+                <span class="absolute inset-0 rounded-full bg-zinc-800 transition-opacity duration-300 group-hover:opacity-0"></span>
+                <span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-800 to-zinc-950 rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span class="relative z-10">Book a free audit</span>
+                  <svg aria-hidden="true" class="w-4 h-4 relative z-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="ds-state-item">
+              <div class="ds-state-title">Hover (Simulado)</div>
+              <button class="group inline-flex overflow-hidden transition-all duration-300 rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center flex-none sim-hover">
+                <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#38bdf8_100%)] opacity-100"></span>
+                <span class="absolute inset-0 rounded-full bg-zinc-800 opacity-0"></span>
+                <span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-900 to-black rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span class="relative z-10">Book a free audit</span>
+                  <svg aria-hidden="true" class="w-4 h-4 relative z-10 text-white translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="ds-state-item">
+              <div class="ds-state-title">Active (Simulado)</div>
+              <button class="group inline-flex overflow-hidden transition-all duration-300 rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center flex-none sim-active">
+                <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#38bdf8_100%)] opacity-100"></span>
+                <span class="absolute inset-0 rounded-full bg-zinc-800 opacity-0"></span>
+                <span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-900 to-black rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span class="relative z-10">Book a free audit</span>
+                  <svg aria-hidden="true" class="w-4 h-4 relative z-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="ds-state-item">
+              <div class="ds-state-title">Focus (Simulado)</div>
+              <button class="group inline-flex overflow-hidden transition-all duration-300 rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center flex-none sim-focus">
+                <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#38bdf8_100%)] opacity-0"></span>
+                <span class="absolute inset-0 rounded-full bg-zinc-800"></span>
+                <span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-800 to-zinc-950 rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span class="relative z-10">Book a free audit</span>
+                  <svg aria-hidden="true" class="w-4 h-4 relative z-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                </span>
+              </button>
+            </div>
+
+            <div class="ds-state-item">
+              <div class="ds-state-title">Disabled</div>
+              <button class="group inline-flex overflow-hidden transition-all duration-300 rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center flex-none sim-disabled">
+                <span class="flex items-center justify-center gap-2 transition-colors duration-300 text-white text-sm font-medium bg-gradient-to-b from-zinc-800 to-zinc-950 rounded-full pt-3.5 pr-8 pb-3.5 pl-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <span class="relative z-10">Book a free audit</span>
+                </span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Component B: White Pill Button -->
+        <div class="ds-comp-row">
+          <div class="ds-comp-label">Bot&atilde;o Pill Branco</div>
+          <div class="ds-states-flex">
+            
+            <div class="ds-state-item">
+              <div class="ds-state-title">Normal</div>
+              <button class="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-black transition-all hover:bg-zinc-200">
+                Get matched
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M4 12h16m0 0l-6-6m6 6l-6 6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+            </div>
+
+            <div class="ds-state-item">
+              <div class="ds-state-title">Hover</div>
+              <button class="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-zinc-200 px-5 text-sm font-semibold text-black transition-all">
+                Get matched
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4"><path d="M4 12h16m0 0l-6-6m6 6l-6 6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 4: Layout & Spacing -->
+    <div class="ds-anchor" id="layouts"></div>
+    <section class="ds-section">
+      <h2 class="ds-section-title">4) Layout &amp; Espa&ccedil;amento</h2>
+      <p class="ds-section-desc">
+        Demonstra&ccedil;&atilde;o de grids e paddings estruturais extra&iacute;dos diretamente da p&aacute;gina original.
+      </p>
+
+      <!-- Layout Case 1: Grid Columns -->
+      <div class="mb-12">
+        <div class="text-xs font-mono text-zinc-500 mb-3">GRID DE DUAS COLUNAS COM ESPA&Ccedil;AMENTO DE 2rem (.grid.grid-cols-1.lg\:grid-cols-2.gap-8)</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="rounded-3xl bg-zinc-900/30 border border-white/10 p-8">
+            <h4 class="text-lg font-medium text-white mb-2">Primeiro Bloco</h4>
+            <p class="text-sm text-zinc-500 font-light">Cards de integra&ccedil;&atilde;o, contendo visualiza&ccedil;&otilde;es e fluxos estruturais embutidos.</p>
+          </div>
+          <div class="rounded-3xl bg-zinc-900/30 border border-white/10 p-8">
+            <h4 class="text-lg font-medium text-white mb-2">Segundo Bloco</h4>
+            <p class="text-sm text-zinc-500 font-light">Controladores de filtros com visualiza&ccedil;&otilde;es condicionais de f&aacute;cil legibilidade.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Section 5: Motion & Interaction -->
+    <div class="ds-anchor" id="motion"></div>
+    <section class="ds-section">
+      <h2 class="ds-section-title">5) Movimento &amp; Intera&ccedil;&atilde;o</h2>
+      <p class="ds-section-desc">
+        Abaixo estÃ£o os loops de movimento que sustentam a est&eacute;tica din&acirc;mica do site.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Motion card 1: Float -->
+        <div class="border border-white/10 rounded-2xl p-6 bg-zinc-900/20 text-center flex flex-col items-center">
+          <span class="text-xs font-mono text-zinc-500 mb-4 block">Card Flutuante (.animate-float)</span>
+          <div class="w-16 h-16 rounded-xl bg-zinc-800 flex items-center justify-center text-2xl animate-float shadow-xl">
+            ðŸ›¸
+          </div>
+          <div class="text-xs text-zinc-400 mt-6">Deslocamento vertical cont&iacute;nuo por keyframe translateY de -8px.</div>
+        </div>
+
+        <!-- Motion card 2: Beam -->
+        <div class="border border-white/10 rounded-2xl p-6 bg-zinc-900/20 text-center flex flex-col items-center">
+          <span class="text-xs font-mono text-zinc-500 mb-4 block">SVG Beam Flow (.animate-beam)</span>
+          <svg width="120" height="40" viewBox="0 0 120 40" class="overflow-visible">
+            <line x1="0" y1="20" x2="120" y2="20" stroke="#3f3f46" stroke-width="1"></line>
+            <line x1="0" y1="20" x2="120" y2="20" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" class="animate-beam"></line>
+          </svg>
+          <div class="text-xs text-zinc-400 mt-6">Anima&ccedil;&atilde;o de fluxo em caminhos SVG usando stroke-dashoffset decrescente.</div>
+        </div>
+
+        <!-- Motion card 3: Pulse -->
+        <div class="border border-white/10 rounded-2xl p-6 bg-zinc-900/20 text-center flex flex-col items-center">
+          <span class="text-xs font-mono text-zinc-500 mb-4 block">Indicador Pulsante (.animate-pulse)</span>
+          <div class="w-4 h-4 rounded-full bg-sky-400 animate-pulse shadow-[0_0_12px_rgba(56,189,248,0.8)] mt-6"></div>
+          <div class="text-xs text-zinc-400 mt-8">Pulsa&ccedil;&atilde;o sutil de opacidade indicando atividade e conex&atilde;o ativa.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 6: Icons -->
+    <div class="ds-anchor" id="icons"></div>
+    <section class="ds-section" style="border-bottom: none;">
+      <h2 class="ds-section-title">6) &Iacute;cones</h2>
+      <p class="ds-section-desc">
+        Mapeamento de &iacute;cones SVGs inline e badges de integra&ccedil;&atilde;o utilizados ao longo da p&aacute;gina original.
+      </p>
+
+      <div class="ds-icon-grid">
+        <div class="ds-icon-card">
+          <div class="ds-icon-wrapper">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </div>
+          <div class="ds-icon-name">arrow-right</div>
+        </div>
+
+        <div class="ds-icon-card">
+          <div class="ds-icon-wrapper">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10c4.418 0 8-1.79 8-4s-3.582-4-8-4s-8 1.79-8 4s3.582 4 8 4"></path><path d="M4 12v6c0 2.21 3.582 4 8 4s8-1.79 8-4v-6" opacity=".5"></path><path d="M4 6v6c0 2.21 3.582 4 8 4s8-1.79 8-4V6" opacity=".7"></path></svg>
+          </div>
+          <div class="ds-icon-name">database</div>
+        </div>
+
+        <div class="ds-icon-card">
+          <div class="ds-icon-wrapper">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect height="8" rx="2" ry="2" width="20" x="2" y="2"></rect><rect height="8" rx="2" ry="2" width="20" x="2" y="14"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg>
+          </div>
+          <div class="ds-icon-name">server</div>
+        </div>
+
+        <div class="ds-icon-card">
+          <div class="ds-icon-wrapper">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.752 14.5a3 3 0 1 1 6 0a3 3 0 0 1-6 0m-10-5a3 3 0 1 0 6 0a3 3 0 0 0-6 0"></path><path d="M7.462 6.584a3 3 0 0 0-1.5.021V2a.75.75 0 0 1 1.5 0zm-1.5 5.81a3 3 0 0 0 1.5.021V22a.75.75 0 0 1-1.5 0zm10 5V22a.75.75 0 0 0 1.5 0v-4.585a3 3 0 0 1-1.5-.021m1.5-5.81V2a.75.75 0 0 0-1.5 0v9.605a3 3 0 0 1 1.5-.021" opacity=".5"></path></svg>
+          </div>
+          <div class="ds-icon-name">tuning-dots</div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

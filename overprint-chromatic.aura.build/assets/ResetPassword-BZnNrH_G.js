@@ -1,0 +1,1 @@
+import{j as r}from"./index-nnsMClsX.js";import{R as o}from"./ResetPasswordForm-4cwRYTgP.js";import"./form-CgxEWyC2.js";import"./label-DyqJkmzH.js";import"./button-DaI0LU9f.js";import"./input-BJF6efel.js";const a=()=>r.jsx(o,{});export{a as default};

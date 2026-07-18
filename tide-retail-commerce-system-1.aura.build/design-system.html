@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Living Design System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    /* Gumroad-style: cream paper background, pure black ink */
+    body {
+      background: #f4f4f0;
+      color: #000;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .font-mono { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; }
+
+    /* chunky display type, gumroad-style */
+    h1, h2 { font-weight: 800 !important; }
+
+    /* grid backdrop — light paper grid */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* scanline overlay — disabled in the light gumroad theme */
+    .scanlines::after { content: none; }
+
+    /* typewriter caret */
+    .caret { display: inline-block; width: 0.6em; animation: blink 0.9s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* marquee */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* marquee strip → gumroad pink band with black text */
+    div:has(> .marquee-track) { background: #ff90e8 !important; border-color: #000 !important; }
+    div:has(> .marquee-track) span { color: #000 !important; }
+
+    /* scroll reveal */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* pipeline signal — pink chip with black outline */
+    @keyframes signal { 0% { left: 0%; opacity: 0; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+    .signal-dot {
+      position: absolute; top: 50%; transform: translate(-50%, -50%);
+      width: 12px; height: 12px; border-radius: 9999px;
+      background: #ff90e8; border: 2px solid #000; box-shadow: none;
+      animation: signal 6s linear infinite;
+    }
+
+    /* node pulse — pink ring */
+    @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(255,144,232,0.6); } 100% { box-shadow: 0 0 0 14px rgba(255,144,232,0); } }
+    .node-active { animation: pulse-ring 1.6s ease-out infinite; }
+
+    /* hero title — no glow in light theme */
+    .hero-title { text-shadow: none; }
+
+    ::selection { background: #ff90e8; color: #000; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f4f4f0; }
+    ::-webkit-scrollbar-thumb { background: #000; border-radius: 0; }
+
+    /* ==========================================================
+       GUMROAD THEME OVERRIDE LAYER
+       Remaps the original dark/cyan utility classes (in locked
+       components) onto the gumroad palette:
+       cream #f4f4f0 · white cards · black ink · pink #ff90e8 · yellow #ffc900
+       ========================================================== */
+
+    /* ---------- surfaces: dark panels → white cards ---------- */
+    [class*="bg-[#04060a]"] { background-color: #fff !important; }
+    [class*="bg-[#060a12]"] { background-color: #fff !important; }
+    [class*="bg-[#03050a]"] { background-color: #fff !important; }
+    [class*="bg-[#070c14]"] { background-color: #ffc900 !important; } /* terminal title bar */
+    .bg-slate-900 { background-color: #000 !important; }              /* module grid lines */
+
+    [class*="bg-cyan-950/40"] { background-color: rgba(0,0,0,0.1) !important; }   /* progress track */
+    [class*="bg-cyan-950/30"] { background-color: #ffc900 !important; box-shadow: 3px 3px 0 #000; } /* hero badge */
+
+    /* hover tints → soft pink */
+    [class*="hover:bg-cyan-950/20"]:hover,
+    [class*="hover:bg-cyan-950/15"]:hover { background-color: #ffe9f9 !important; }
+    [class*="hover:bg-cyan-500/10"]:hover { background-color: #ff90e8 !important; }
+    [class*="hover:bg-cyan-300"]:hover { background-color: #ff90e8 !important; }
+
+    /* hero radial glow → pink wash */
+    #hero > .pointer-events-none {
+      background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(255,144,232,0.35), transparent 70%) !important;
+    }
+
+    /* ---------- ink: light text → black ---------- */
+    .text-white { color: #000 !important; }
+    [class*="text-[#04060a]"] { color: #000 !important; }
+    .text-cyan-200, .text-cyan-300, .text-cyan-400, .text-cyan-500,
+    .text-cyan-700, .text-cyan-800 { color: #000 !important; }
+    .text-cyan-600 { color: rgba(0,0,0,0.45) !important; }
+    [class*="text-cyan-200/"] { color: rgba(0,0,0,0.6) !important; }
+
+    .text-slate-200 { color: #111 !important; }
+    .text-slate-300 { color: rgba(0,0,0,0.78) !important; }
+    .text-slate-400 { color: rgba(0,0,0,0.66) !important; }
+    .text-slate-500 { color: rgba(0,0,0,0.55) !important; }
+    .text-slate-600 { color: rgba(0,0,0,0.42) !important; }
+
+    .text-emerald-400 { color: #0e8f78 !important; }
+    .text-amber-300 { color: #b45309 !important; }
+    .text-red-400 { color: #dc2626 !important; }
+
+    [class*="hover:text-cyan-300"]:hover { color: #000 !important; text-decoration: underline; text-underline-offset: 4px; }
+    .group:hover [class*="group-hover:text-cyan-300"] { color: #000 !important; }
+    [class*="placeholder:text-slate-600"]::placeholder { color: rgba(0,0,0,0.4) !important; }
+
+    /* gradient display text → flat pink with black outline (gumroad hero style) */
+    .text-transparent.bg-clip-text {
+      background-image: none !important;
+      color: #ff90e8 !important;
+      -webkit-text-fill-color: #ff90e8;
+      -webkit-text-stroke: 2px #000;
+      paint-order: stroke fill;
+    }
+
+    /* ---------- borders: everything outlined in black ---------- */
+    .border { border-width: 2px !important; border-radius: 4px; }
+    .border-slate-700, .border-slate-800, .border-slate-900 { border-color: #000 !important; }
+    .border-slate-600 { border-color: rgba(0,0,0,0.35) !important; }
+    [class*="border-cyan-"] { border-color: #000 !important; }
+    .divide-slate-900 > * + * { border-color: rgba(0,0,0,0.15) !important; }
+
+    /* status badge colors */
+    [class*="border-emerald-7"] { border-color: #0e8f78 !important; }
+    [class*="border-amber-7"] { border-color: #b45309 !important; }
+    [class*="border-cyan-600/50"] { background-color: #ff90e8 !important; } /* IN PROGRESS chip */
+
+    /* active node + timeline markers */
+    .border-cyan-400 { border-color: #000 !important; background-color: #ff90e8 !important; }
+    .border-emerald-400 { border-color: #000 !important; background-color: #23a094 !important; }
+
+    /* why-card icon chips → yellow stickers */
+    [class*="border-cyan-900/60"] { background-color: #ffc900 !important; box-shadow: 3px 3px 0 #000; }
+
+    /* ---------- hard offset shadows (neo-brutalist cards) ---------- */
+    .border.border-slate-800 { box-shadow: 4px 4px 0 #000; }
+    .border.border-slate-900 { box-shadow: 6px 6px 0 #000; }
+
+    /* glow shadows → hard black offset shadows */
+    [class*="hover:shadow-"]:hover { box-shadow: 4px 4px 0 #000 !important; }
+
+    /* ---------- accents: cyan → gumroad pink ---------- */
+    .bg-cyan-400 { background-color: #ff90e8 !important; }
+    [class*="bg-cyan-400/60"] { background-color: #000 !important; }   /* section-head dash */
+    [class*="from-cyan-500"] { background-image: none !important; background-color: #ff90e8 !important; } /* progress bar / timeline rail */
+    [class*="from-cyan-400"] { background-image: none !important; background-color: #000 !important; }    /* module hover sweep */
+
+    /* primary CTA buttons — bordered pink blocks that press down on hover */
+    a.bg-cyan-400, button.bg-cyan-400 {
+      border: 2px solid #000;
+      border-radius: 4px;
+      box-shadow: 4px 4px 0 #000;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    a.bg-cyan-400:hover, button.bg-cyan-400:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000 !important;
+    }
+
+    /* form focus — black border, pink offset shadow */
+    [class*="focus:border-cyan-500"]:focus {
+      border-color: #000 !important;
+      box-shadow: 4px 4px 0 #ff90e8;
+      outline: none;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    });
+  </script>
+</head>
+<body class="scanlines text-white">
+  <!-- Nav -->
+  <header class="fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-[#04060a]/85 backdrop-blur-md border-b border-cyan-900/40">
+    <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2 group">
+        <iconify-icon icon="solar:waterdrops-linear" class="text-cyan-400 text-xl"></iconify-icon>
+        <span class="font-mono font-semibold tracking-widest text-white">DESIGN SYSTEM</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7">
+        <a href="#typography" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">TYPOGRAPHY</a>
+        <a href="#colors" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">COLORS & SURFACES</a>
+        <a href="#components" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">UI COMPONENTS</a>
+        <a href="#layout" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">LAYOUT & SPACING</a>
+        <a href="#motion" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">MOTION & INTERACTION</a>
+        <a href="#icons" class="font-mono text-xs tracking-widest text-slate-400 hover:text-cyan-300 transition-colors">ICONS</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 0) Hero -->
+    <section id="hero" class="relative min-h-screen flex items-center grid-bg overflow-hidden pt-16">
+      <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(34,211,238,0.10), transparent 70%);"></div>
+      <div class="relative max-w-7xl mx-auto px-6 w-full">
+        <div class="reveal">
+          <div class="inline-flex items-center gap-3 font-mono text-xs tracking-widest text-cyan-300 border border-cyan-800/60 bg-cyan-950/30 px-4 py-2 mb-8">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> LIVING DESIGN SYSTEM
+          </div>
+          <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-white leading-[1.05]">
+            Design<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-teal-200 to-cyan-400">system.</span><br>
+            v2.0
+          </h1>
+          <p class="mt-8 max-w-xl text-sm md:text-base text-slate-400 leading-relaxed">
+            A comprehensive pattern library and design system documentation. Engineered to preserve the exact look, behavior, and stylistic overrides of the reference interface.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="#components" class="font-mono text-xs tracking-widest px-7 py-3.5 bg-cyan-400 text-[#04060a] font-medium hover:bg-cyan-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
+              EXPLORE COMPONENTS
+            </a>
+            <a href="#typography" class="font-mono text-xs tracking-widest px-7 py-3.5 border border-slate-700 text-slate-300 hover:border-cyan-500/60 hover:text-cyan-300 transition-all flex items-center gap-2">
+              TYPOGRAPHY
+              <iconify-icon icon="solar:arrow-down-linear"></iconify-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1) Typography -->
+    <section id="typography" class="py-28 max-w-7xl mx-auto px-6 border-b border-slate-900">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 01 / TYPOGRAPHY
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Type Scale & Styles</h2>
+      </div>
+
+      <div class="grid gap-px bg-slate-900 border border-slate-900 reveal">
+        <!-- Row H1 -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Heading 1</div>
+          <div>
+            <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-white leading-[1.05]">
+              Design System
+            </h1>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">96px / 1.05</div>
+        </div>
+        <!-- Row H2 -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Heading 2</div>
+          <div>
+            <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Section Title</h2>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">48px / 1.1</div>
+        </div>
+        <!-- Row H3 -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Heading 3</div>
+          <div>
+            <h3 class="text-xl font-medium tracking-tight text-white">Card Title Element</h3>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">20px / 1.2</div>
+        </div>
+        <!-- Row H4 -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Heading 4</div>
+          <div>
+            <h3 class="text-lg font-medium tracking-tight text-white">Small Title Element</h3>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">18px / 1.2</div>
+        </div>
+        <!-- Bold L (Stat) -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Bold L</div>
+          <div>
+            <div class="font-mono text-6xl md:text-7xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-cyan-200 to-cyan-500">99.9%</div>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">72px / 1.0</div>
+        </div>
+        <!-- Paragraph -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Paragraph</div>
+          <div>
+            <p class="text-sm md:text-base text-slate-400 leading-relaxed">
+              A cashless-first retail commerce system — ordering, service, payment, invoicing, kitchen. Engineered as one, not assembled from parts.
+            </p>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">16px / 1.625</div>
+        </div>
+        <!-- Regular S / Mono -->
+        <div class="grid grid-cols-[100px_1fr] md:grid-cols-[200px_1fr_150px] items-center gap-6 bg-[#04060a] p-8">
+          <div class="font-mono text-xs text-slate-500">Regular S</div>
+          <div>
+            <div class="font-mono text-xs tracking-widest text-slate-400">TRACKING TEXT ELEMENT</div>
+          </div>
+          <div class="font-mono text-xs text-right text-slate-500 hidden md:block">12px / 1.5</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) Colors & Surfaces -->
+    <section id="colors" class="py-28 max-w-7xl mx-auto px-6 border-b border-slate-900">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 02 / COLORS & SURFACES
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Theme Palette</h2>
+      </div>
+
+      <div class="grid gap-12 reveal">
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">BACKGROUNDS</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-[#04060a] border border-slate-800 h-32 flex items-end p-4 group hover:border-cyan-500/60 transition-colors">
+              <div class="font-mono text-xs text-slate-500 group-hover:text-cyan-300 transition-colors">bg-[#04060a]</div>
+            </div>
+            <div class="bg-[#060a12] border border-slate-800 h-32 flex items-end p-4 group hover:border-cyan-500/60 transition-colors">
+              <div class="font-mono text-xs text-slate-500 group-hover:text-cyan-300 transition-colors">bg-[#060a12]</div>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 h-32 flex items-end p-4 group hover:border-cyan-500/60 transition-colors">
+              <div class="font-mono text-xs text-slate-500 group-hover:text-cyan-300 transition-colors">bg-slate-900</div>
+            </div>
+            <div class="bg-[#03050a] border border-slate-800 h-32 flex items-end p-4 group hover:border-cyan-500/60 transition-colors">
+              <div class="font-mono text-xs text-slate-500 group-hover:text-cyan-300 transition-colors">bg-[#03050a]</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">ACCENTS & BORDERS</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-cyan-400 border border-slate-800 h-32 flex items-end p-4">
+              <div class="font-mono text-xs text-[#04060a]">bg-cyan-400</div>
+            </div>
+            <div class="bg-emerald-400 border border-slate-800 h-32 flex items-end p-4">
+              <div class="font-mono text-xs text-[#04060a]">bg-emerald-400</div>
+            </div>
+            <div class="bg-[#04060a] border border-cyan-500/60 h-32 flex items-end p-4">
+              <div class="font-mono text-xs text-cyan-500">border-cyan-500/60</div>
+            </div>
+            <div class="bg-[#04060a] border border-slate-800 h-32 flex items-end p-4">
+              <div class="font-mono text-xs text-slate-500">border-slate-800</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">GRADIENTS</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gradient-to-r from-cyan-500 to-teal-300 h-32 flex items-end p-4 border border-slate-800">
+              <div class="font-mono text-xs text-[#04060a]">bg-gradient-to-r from-cyan-500 to-teal-300</div>
+            </div>
+            <div class="bg-gradient-to-b from-cyan-200 to-cyan-500 h-32 flex items-end p-4 border border-slate-800">
+              <div class="font-mono text-xs text-[#04060a]">bg-gradient-to-b from-cyan-200 to-cyan-500</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) UI Components -->
+    <section id="components" class="py-28 max-w-7xl mx-auto px-6 border-b border-slate-900">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 03 / UI COMPONENTS
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Interactive Elements</h2>
+      </div>
+
+      <div class="space-y-16 reveal">
+        <!-- Buttons -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">BUTTONS</h3>
+          <div class="flex flex-wrap items-center gap-8 bg-[#060a12] border border-slate-800 p-8">
+            <div>
+              <div class="text-xs text-slate-500 mb-3 font-mono">Primary</div>
+              <a href="#components" class="inline-block font-mono text-xs tracking-widest px-7 py-3.5 bg-cyan-400 text-[#04060a] font-medium hover:bg-cyan-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
+                GET IN TOUCH
+              </a>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 mb-3 font-mono">Secondary</div>
+              <a href="#components" class="inline-flex font-mono text-xs tracking-widest px-7 py-3.5 border border-slate-700 text-slate-300 hover:border-cyan-500/60 hover:text-cyan-300 transition-all items-center gap-2">
+                EXPLORE SYSTEM
+                <iconify-icon icon="solar:arrow-down-linear"></iconify-icon>
+              </a>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 mb-3 font-mono">Tertiary outline</div>
+              <a href="#components" class="inline-block font-mono text-xs tracking-widest px-4 py-2 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] transition-all">
+                ACTION BUTTON
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">INPUTS</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-[#060a12] border border-slate-800 p-8">
+            <div>
+              <div class="text-xs text-slate-500 mb-3 font-mono">Default / Focus State</div>
+              <input type="text" placeholder="you@company.com" class="w-full bg-[#04060a] border border-slate-700 px-4 py-3.5 font-mono text-sm text-white placeholder:text-slate-600 outline-none transition-colors focus:border-cyan-500">
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 mb-3 font-mono">Error State</div>
+              <input type="text" placeholder="you@company.com" class="w-full bg-[#04060a] border border-red-500/70 px-4 py-3.5 font-mono text-sm text-white placeholder:text-slate-600 outline-none transition-colors focus:border-cyan-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">CARDS</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- Feature Card -->
+            <div class="group border border-slate-800 bg-[#04060a] p-8 h-full hover:border-cyan-700/60 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(34,211,238,0.08)] transition-all duration-300">
+              <div class="w-12 h-12 border border-cyan-900/60 flex items-center justify-center group-hover:border-cyan-500/60 transition-colors">
+                <iconify-icon icon="solar:cpu-linear" class="text-2xl text-cyan-400"></iconify-icon>
+              </div>
+              <h3 class="mt-6 text-xl font-medium tracking-tight text-white">Card Title Element</h3>
+              <p class="mt-1 text-xs text-cyan-200/60">Subtitle or secondary info</p>
+              <p class="mt-4 text-sm text-slate-400 leading-relaxed">Description text inside the card describing the feature or module.</p>
+            </div>
+
+            <!-- Node Card -->
+            <div class="bg-[#060a12] border border-slate-800 p-8 flex flex-col justify-center">
+              <button type="button" class="group flex md:flex-col items-center md:items-center gap-4 md:gap-0 text-left md:text-center outline-none w-full">
+                <div class="w-16 h-16 shrink-0 border border-cyan-400 text-cyan-300 node-active flex items-center justify-center bg-[#04060a] transition-all duration-300">
+                  <iconify-icon icon="solar:routing-2-linear" class="text-2xl"></iconify-icon>
+                </div>
+                <div class="md:mt-4">
+                  <div class="font-mono text-xs text-cyan-600">NODE ID</div>
+                  <div class="font-mono text-sm tracking-widest transition-colors text-cyan-300">ACTIVE NODE</div>
+                  <div class="text-xs text-slate-500">Description</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">BADGES</h3>
+          <div class="flex flex-wrap gap-4 bg-[#060a12] border border-slate-800 p-8">
+            <span class="font-mono text-xs px-2 py-0.5 border tracking-widest text-emerald-400 border-emerald-700/50">COMPLETE</span>
+            <span class="font-mono text-xs px-2 py-0.5 border tracking-widest text-cyan-300 border-cyan-600/50">IN PROGRESS</span>
+            <span class="font-mono text-xs px-2 py-0.5 border tracking-widest text-amber-300 border-amber-700/50">SCHEDULED</span>
+            <span class="font-mono text-xs px-2 py-0.5 border tracking-widest text-slate-400 border-slate-700">PLANNED</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Layout & Spacing -->
+    <section id="layout" class="py-28 max-w-7xl mx-auto px-6 border-b border-slate-900">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 04 / LAYOUT & SPACING
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Composition Patterns</h2>
+      </div>
+
+      <div class="space-y-16 reveal">
+        <!-- Grid 3 Cols -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">STANDARD 3-COLUMN GRID (GAP-6)</h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-[#04060a] border border-slate-800 h-32 flex items-center justify-center font-mono text-xs text-slate-500">COL 1</div>
+            <div class="bg-[#04060a] border border-slate-800 h-32 flex items-center justify-center font-mono text-xs text-slate-500">COL 2</div>
+            <div class="bg-[#04060a] border border-slate-800 h-32 flex items-center justify-center font-mono text-xs text-slate-500">COL 3</div>
+          </div>
+        </div>
+
+        <!-- Connected Grid (0 gap) -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">CONNECTED GRID (GAP-PX)</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-slate-900 border border-slate-900 p-px">
+            <div class="bg-[#04060a] h-32 flex items-center justify-center font-mono text-xs text-slate-500 hover:bg-cyan-950/20 transition-colors">CELL 1</div>
+            <div class="bg-[#04060a] h-32 flex items-center justify-center font-mono text-xs text-slate-500 hover:bg-cyan-950/20 transition-colors">CELL 2</div>
+            <div class="bg-[#04060a] h-32 flex items-center justify-center font-mono text-xs text-slate-500 hover:bg-cyan-950/20 transition-colors">CELL 3</div>
+            <div class="bg-[#04060a] h-32 flex items-center justify-center font-mono text-xs text-slate-500 hover:bg-cyan-950/20 transition-colors">CELL 4</div>
+          </div>
+        </div>
+        
+        <!-- Split Layout -->
+        <div>
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">SPLIT LAYOUT (LG:GRID-COLS-2)</h3>
+          <div class="grid lg:grid-cols-2 gap-12 border border-slate-800 p-8">
+            <div class="bg-[#060a12] border border-slate-800 h-48 flex items-center justify-center font-mono text-xs text-slate-500">CONTENT LEFT</div>
+            <div class="bg-[#060a12] border border-slate-800 h-48 flex items-center justify-center font-mono text-xs text-slate-500">CONTENT RIGHT (PANEL)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Motion & Interaction -->
+    <section id="motion" class="py-28 max-w-7xl mx-auto px-6 border-b border-slate-900 overflow-hidden">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 05 / MOTION & INTERACTION
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Animations</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 reveal">
+        <!-- Hover Sweep -->
+        <div class="border border-slate-800 bg-[#04060a] p-8">
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">HOVER SWEEP (MODULE)</h3>
+          <div class="group bg-[#04060a] p-7 h-32 border border-slate-800 hover:bg-cyan-950/20 transition-colors cursor-default relative overflow-hidden flex items-center justify-center">
+            <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-cyan-400 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+            <div class="font-mono text-xs text-slate-500 group-hover:text-cyan-300 transition-colors">Hover me</div>
+          </div>
+        </div>
+
+        <!-- Active Pulse -->
+        <div class="border border-slate-800 bg-[#04060a] p-8">
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">ACTIVE NODE PULSE</h3>
+          <div class="flex items-center justify-center h-32">
+            <div class="w-16 h-16 shrink-0 border flex items-center justify-center bg-[#04060a] transition-all duration-300 border-cyan-400 text-cyan-300 node-active">
+              <iconify-icon icon="solar:cpu-linear" class="text-2xl"></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signal Dot -->
+        <div class="border border-slate-800 bg-[#04060a] p-8 md:col-span-2">
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">SIGNAL TRACE</h3>
+          <div class="relative h-20 bg-[#060a12] border border-slate-800 flex items-center px-8">
+            <div class="absolute top-1/2 left-0 right-0 h-px bg-slate-800 hidden md:block">
+              <span class="signal-dot"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marquee -->
+        <div class="border border-slate-800 bg-[#04060a] p-8 md:col-span-2">
+          <h3 class="font-mono text-sm tracking-widest text-slate-500 mb-6">MARQUEE</h3>
+          <div class="border-y border-cyan-900/40 bg-[#060a12] py-4 overflow-hidden" aria-hidden="true">
+            <div class="marquee-track">
+              <span class="font-mono text-xs tracking-[0.3em] text-cyan-600 mx-8 flex items-center gap-8 whitespace-nowrap">
+                CONTINUOUS MOTION <iconify-icon icon="solar:bolt-linear" class="text-cyan-800"></iconify-icon>
+              </span>
+              <span class="font-mono text-xs tracking-[0.3em] text-cyan-600 mx-8 flex items-center gap-8 whitespace-nowrap">
+                CONTINUOUS MOTION <iconify-icon icon="solar:bolt-linear" class="text-cyan-800"></iconify-icon>
+              </span>
+              <span class="font-mono text-xs tracking-[0.3em] text-cyan-600 mx-8 flex items-center gap-8 whitespace-nowrap">
+                CONTINUOUS MOTION <iconify-icon icon="solar:bolt-linear" class="text-cyan-800"></iconify-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) Icons -->
+    <section id="icons" class="py-28 max-w-7xl mx-auto px-6">
+      <div class="mb-14 reveal">
+        <div class="font-mono text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+          <span class="w-8 h-px bg-cyan-400/60"></span> 06 / ICONS
+        </div>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Iconography</h2>
+        <p class="mt-4 text-sm text-slate-400 max-w-xl">System icons use Iconify (Solar set). Colors and sizes are inherited from text utility classes.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+        <div class="border border-slate-800 bg-[#04060a] p-6 flex flex-col items-center justify-center gap-4 hover:border-cyan-500/60 transition-colors">
+          <iconify-icon icon="solar:waterdrops-linear" class="text-3xl text-cyan-400"></iconify-icon>
+          <div class="font-mono text-xs text-slate-500">waterdrops-linear</div>
+        </div>
+        <div class="border border-slate-800 bg-[#04060a] p-6 flex flex-col items-center justify-center gap-4 hover:border-cyan-500/60 transition-colors">
+          <iconify-icon icon="solar:routing-2-linear" class="text-3xl text-slate-400"></iconify-icon>
+          <div class="font-mono text-xs text-slate-500">routing-2-linear</div>
+        </div>
+        <div class="border border-slate-800 bg-[#04060a] p-6 flex flex-col items-center justify-center gap-4 hover:border-cyan-500/60 transition-colors">
+          <iconify-icon icon="solar:bolt-linear" class="text-3xl text-cyan-600"></iconify-icon>
+          <div class="font-mono text-xs text-slate-500">bolt-linear</div>
+        </div>
+        <div class="border border-slate-800 bg-[#04060a] p-6 flex flex-col items-center justify-center gap-4 hover:border-cyan-500/60 transition-colors">
+          <iconify-icon icon="solar:map-point-linear" class="text-3xl text-emerald-400"></iconify-icon>
+          <div class="font-mono text-xs text-slate-500">map-point-linear</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
