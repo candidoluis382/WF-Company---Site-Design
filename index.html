@@ -825,16 +825,16 @@
             // =========================================================================
             ScrollTrigger.create({
                 trigger: '.services-section',
-                start: 'top 40%', // Escurece ao entrar em serviços
+                start: 'top 80%', // Inicia a transição pro Dark assim que a seção desponta na tela
                 onEnter: () => document.body.classList.add('dark-mode-active'),
                 onLeaveBack: () => document.body.classList.remove('dark-mode-active')
             });
 
             ScrollTrigger.create({
                 trigger: '.testimonials-section',
-                start: 'top 50%', // Chegou na metade da tela, clareia!
-                onEnter: () => document.body.classList.remove('dark-mode-active'), // Entrou na metade: Light mode
-                onLeaveBack: () => document.body.classList.add('dark-mode-active') // Voltou: Dark mode
+                start: 'top 75%', // Inicia o retorno pro Light Mode logo que os depoimentos aparecem
+                onEnter: () => document.body.classList.remove('dark-mode-active'), 
+                onLeaveBack: () => document.body.classList.add('dark-mode-active')
             });
 
             // =========================================================================
