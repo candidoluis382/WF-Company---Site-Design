@@ -78,57 +78,36 @@ body.loading {
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 9999px;
-    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
-    box-shadow: 0 8px 30px rgba(18, 17, 50, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    padding: 0.75rem 0.75rem 0.75rem 2rem; /* padding otimizado e elegante */
+    box-shadow: 0 10px 40px rgba(18, 17, 50, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .logo-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     text-decoration: none;
 }
 
-/* Logo construída via CSS para harmonizar perfeitamente */
-.logo-icon-wrapper {
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 9999px;
-    background: linear-gradient(to bottom right, var(--brand-blue), var(--brand-purple));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.logo-text-small {
-    font-size: 0.5625rem;
-    font-weight: 700;
-    color: white;
-    letter-spacing: -0.05em;
+.header-image-logo {
+    height: 32px; /* Tamanho real e legível para a logo sem margem transparente */
+    width: auto;
+    object-fit: contain;
 }
 
 .logo-text {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #18181b;
-    letter-spacing: -0.01em;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.02em;
 }
 
-.btn-header {
-    background: var(--brand-blue);
-    color: white;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.625rem 1.25rem;
-    border-radius: 9999px;
-    text-decoration: none;
-    box-shadow: 0 10px 20px rgba(27,77,241,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
-    transition: background-color 0.3s ease;
-}
-
-.btn-header:hover {
-    background: var(--brand-purple);
+/* Botão oficial com modificador de tamanho para o Header */
+.btn-header-size {
+    padding: 0.75rem 2rem !important;
+    font-size: 1rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 /* =========================================================================
@@ -482,6 +461,294 @@ body.loading {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+/* =========================================================================
+   Seção: Biografia (Central Card)
+   ========================================================================= */
+
+.bio-section {
+    padding: 6rem 0 5rem 0; /* Padding-top reduzido (era 10rem) */
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff; /* Fundo branco normal restaurado */
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Texturas de Fundo da Biografia (Dot Grid & Noise) */
+.bio-texture-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.bio-dot-grid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(rgba(0,0,0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.bio-noise-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.03;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Gradiente Suave para transição com a seção anterior */
+.bio-transition-fade {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 250px;
+    background: linear-gradient(to bottom, var(--bg-page), #ffffff);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Logos Posicionadas nas Bordas (Animação ScrollTrigger) */
+.scroll-logo-tool {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.04);
+    z-index: 20;
+}
+
+.scroll-logo-tool img {
+    max-width: 45px;
+    max-height: 45px;
+    object-fit: contain;
+}
+
+.logo-top-left { top: -30px; left: -30px; }
+.logo-top-right { top: -30px; right: -30px; }
+.logo-bottom-left { bottom: -30px; left: -30px; }
+.logo-bottom-right { bottom: -30px; right: -30px; }
+.logo-bottom-center { bottom: -40px; left: 50%; margin-left: -40px; }
+
+/* Central Card */
+.bio-central-card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 2.5rem;
+    padding: 5rem 4rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.04);
+    text-align: center;
+}
+
+.bio-central-card .bio-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+}
+
+.bio-central-card .bio-role {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2.5rem;
+}
+
+.bio-central-card p {
+    font-size: 1.35rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .bio-central-card {
+        padding: 3rem 2rem;
+    }
+    .scroll-logo-tool {
+        width: 60px; height: 60px;
+    }
+    .scroll-logo-tool img {
+        max-width: 30px; max-height: 30px;
+    }
+    .logo-top-left { top: -20px; left: -10px; }
+    .logo-top-right { top: -20px; right: -10px; }
+    .logo-bottom-left { bottom: -20px; left: -10px; }
+    .logo-bottom-right { bottom: -20px; right: -10px; }
+    .logo-bottom-center { bottom: -30px; margin-left: -30px; }
+}
+
+/* =========================================================================
+   Seção: CTA Final (Editorial Split Grid)
+   ========================================================================= */
+
+.final-cta-section {
+    padding: 12rem 2rem 15rem 2rem;
+    background-color: #ffffff;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    /* border-top removido para garantir transição suave e contínua a partir do card branco da bio */
+}
+
+/* Fundo: Arquitetura Minimalista */
+.cta-bg-architectural {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(0,0,0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0, 0.03) 1px, transparent 1px);
+    background-size: 100px 100px;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent); /* Suavizado o fade in da grid */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+.cta-grid-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.cta-left-col {
+    position: relative;
+}
+
+.cta-mega-title {
+    font-size: clamp(3.5rem, 6.5vw, 6.5rem); /* Tamanho reduzido conforme pedido */
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--text-dark);
+}
+
+/* A palavra Dúvida agora puxa a classe .gradient-text diretamente do HTML */
+.cta-mega-title span {
+    display: block;
+}
+
+.cta-right-col {
+    padding-left: 4rem;
+    border-left: 2px solid rgba(112, 87, 247, 0.15); /* Detalhe visual premium / Identidade */
+}
+
+.cta-editorial-subtitle {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    max-width: 450px;
+}
+
+.btn-cta-editorial {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-radius: 100px;
+}
+
+/* =========================================================================
+   Rodapé Integrado na Seção
+   ========================================================================= */
+
+.integrated-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.footer-col-left, .footer-col-right {
+    flex: 1;
+}
+
+.footer-col-right {
+    text-align: right;
+}
+
+.footer-col-center {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.footer-logo {
+    height: 40px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+}
+
+.footer-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .cta-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .cta-right-col {
+        padding-left: 0;
+        border-left: none;
+        border-top: 2px solid rgba(112, 87, 247, 0.15);
+        padding-top: 3rem;
+    }
+    
+    .integrated-footer {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .footer-col-right {
+        text-align: center;
+    }
+    
+    .footer-logo {
+        height: 35px;
+    }
 }
 
 /* =========================================================================
@@ -943,6 +1210,21 @@ body.dark-mode-active .services-section::before {
     opacity: 1;
 }
 
+/* Textura de Grid Premium ao Fundo da Seção */
+.services-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-size: 60px 60px;
+    background-image: 
+        linear-gradient(to right, rgba(150, 150, 150, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(150, 150, 150, 0.02) 1px, transparent 1px);
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
 .services-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -1178,6 +1460,199 @@ body.dark-mode-active .bento-highlight::after {
     letter-spacing: 0.02em;
     margin-bottom: 0.5rem;
     color: white;
+}
+
+/* =========================================================================
+   Seção: Prova Social (Depoimentos Wall of Love - Premium)
+   ========================================================================= */
+
+.testimonials-section {
+    position: relative;
+    padding: 8rem 0 2rem 0; /* Padding-bottom reduzido para eliminar o buraco */
+    overflow: hidden;
+    z-index: 2;
+}
+
+.testimonials-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.testimonials-title {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 1rem;
+}
+
+.testimonials-subtitle {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Container do Marquee Único */
+.chat-marquee-container {
+    position: relative;
+    display: flex;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+    margin-top: 4rem;
+    padding: 2rem 0 4rem 0; /* Espaço para as sombras no hover */
+}
+
+.chat-marquee-fade-left, .chat-marquee-fade-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 200px;
+    z-index: 5;
+    pointer-events: none;
+}
+.chat-marquee-fade-left { 
+    left: 0; 
+    background: linear-gradient(to right, var(--bg-color) 0%, transparent 100%); 
+}
+.chat-marquee-fade-right { 
+    right: 0; 
+    background: linear-gradient(to left, var(--bg-color) 0%, transparent 100%); 
+}
+
+/* O Track único */
+.chat-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-left-premium 45s linear infinite;
+}
+
+.chat-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-left-premium {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.chat-marquee-content {
+    display: flex;
+    gap: 2rem;
+    padding-right: 2rem;
+}
+
+/* Cards Premium de Depoimentos */
+.premium-chat-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    width: 420px;
+    flex-shrink: 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.premium-chat-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+.chat-header-premium {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 1rem;
+}
+
+.chat-avatar-premium {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7928ca, #ff0080);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.chat-avatar-premium .lucide {
+    width: 20px; height: 20px;
+}
+
+.chat-info-premium {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-info-premium h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.chat-info-premium span {
+    font-size: 0.8rem;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.chat-info-premium span::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+}
+
+.chat-body-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.bubble-premium {
+    padding: 1rem 1.25rem;
+    border-radius: 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 85%;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.bubble-premium.client {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #111b21;
+    align-self: flex-start;
+    border-bottom-left-radius: 0.2rem;
+}
+
+.bubble-premium.agency {
+    background: linear-gradient(135deg, #7928ca, #9333ea);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 0.2rem;
+    box-shadow: 0 4px 15px rgba(121, 40, 202, 0.3);
+}
+
+/* Tarja de censura para nomes */
+.blur-tarja {
+    background: #18181b;
+    color: transparent;
+    border-radius: 4px;
+    padding: 0 0.2rem;
+    user-select: none;
 }
 
 /* =========================================================================
