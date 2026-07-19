@@ -30,13 +30,18 @@
     padding: 0;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: var(--font-primary);
     background-color: var(--bg-page);
     color: var(--text-dark);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     transition: background-color 0.8s ease, color 0.8s ease; /* Efeito de switch de tema dinâmico */
 }
 
@@ -334,7 +339,7 @@ body.loading {
 
 /* Typography Avançada */
 .hero-title {
-    font-size: clamp(1.75rem, 3.5vw, 3.25rem); /* Proporção menor e elegante */
+    font-size: 3.25rem; /* Tamanho fixo para quebrar linha em vez de espremer o texto */
     line-height: 1.3;
     font-weight: 500;
     color: var(--text-dark);
@@ -344,8 +349,8 @@ body.loading {
 }
 
 .hero-subtitle-main {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    line-height: 1.2;
+    font-size: 1.5rem;
+    line-height: 1.4;
     font-weight: 500;
     color: #3f3f46;
     max-width: 58rem;
@@ -358,6 +363,9 @@ body.loading {
     background-clip: text;
     -webkit-background-clip: text;
     background-image: linear-gradient(to right, var(--brand-blue), var(--brand-purple), var(--brand-light));
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    white-space: normal;
 }
 
 /* =========================================================================
@@ -367,9 +375,9 @@ body.loading {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    margin: 0 0.5rem;
-    height: 2.75rem;
-    width: 7.5rem;
+    margin: 0 0.15em;
+    height: 0.85em; /* Proporcional ao font-size do hero-title */
+    width: 2.3em;
     border-radius: 9999px;
     background: linear-gradient(to bottom right, var(--brand-blue), var(--brand-purple), var(--brand-light));
     box-shadow: 0 12px 24px rgba(27,77,241,0.2), inset 0 2px 4px rgba(255,255,255,0.4);
@@ -386,32 +394,32 @@ body.loading {
 }
 
 .badge-1 {
-    top: -0.75rem; left: 0.5rem;
-    width: 2.25rem; height: 2.25rem;
-    border-radius: 0.625rem;
+    top: -0.25em; left: 0.15em;
+    width: 0.7em; height: 0.7em;
+    border-radius: 0.25em;
     transform: rotate(-12deg);
     animation: float1 5s ease-in-out infinite alternate;
 }
-.badge-1 .lucide { color: var(--brand-purple); width: 1rem; height: 1rem; }
+.badge-1 .lucide { color: var(--brand-purple); width: 0.35em; height: 0.35em; }
 
 .badge-2 {
-    top: 0.25rem; right: 0.25rem;
-    width: 2rem; height: 2rem;
-    border-radius: 0.5rem;
+    top: 0.1em; right: 0.1em;
+    width: 0.6em; height: 0.6em;
+    border-radius: 0.2em;
     transform: rotate(12deg);
     animation: float2 6s ease-in-out 0.5s infinite alternate;
 }
-.badge-2 .lucide { color: var(--brand-blue); width: 0.875rem; height: 0.875rem; }
+.badge-2 .lucide { color: var(--brand-blue); width: 0.3em; height: 0.3em; }
 
 .badge-3 {
-    bottom: -0.875rem; left: 50%;
-    margin-left: -1rem;
-    width: 2rem; height: 2rem;
-    border-radius: 0.5rem;
+    bottom: -0.25em; left: 50%;
+    margin-left: -0.3em;
+    width: 0.6em; height: 0.6em;
+    border-radius: 0.2em;
     transform: rotate(-6deg);
     animation: float3 7s ease-in-out 1s infinite alternate;
 }
-.badge-3 .lucide { color: var(--brand-purple); width: 0.875rem; height: 0.875rem; }
+.badge-3 .lucide { color: var(--brand-purple); width: 0.3em; height: 0.3em; }
 
 @keyframes float1 {
     0% { transform: rotate(-12deg) translateY(0); }
@@ -556,7 +564,7 @@ body.loading {
 }
 
 .bio-central-card .bio-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: 4rem;
     font-weight: 800;
     color: var(--text-dark);
     line-height: 1.1;
@@ -639,7 +647,7 @@ body.loading {
 }
 
 .cta-mega-title {
-    font-size: clamp(3.5rem, 6.5vw, 6.5rem); /* Tamanho reduzido conforme pedido */
+    font-size: 6.5rem; /* Tamanho absoluto e estático */
     font-weight: 800;
     line-height: 0.9;
     letter-spacing: -0.05em;
@@ -814,7 +822,7 @@ body.loading {
 }
 
 .mq-text {
-    font-size: clamp(1rem, 1.5vw, 1.375rem); /* Letras um pouquinho menores (16px a 22px) */
+    font-size: 1.375rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -937,7 +945,7 @@ body.loading {
 }
 
 .method-title {
-    font-size: clamp(2.25rem, 4.5vw, 4rem);
+    font-size: 4rem;
     line-height: 1.15;
     font-weight: 600;
     color: var(--text-dark);
@@ -946,7 +954,7 @@ body.loading {
 }
 
 .method-subtitle {
-    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    font-size: 1.25rem;
     color: var(--text-muted);
     max-width: 650px;
     margin: 0 auto 2rem auto;
@@ -1128,6 +1136,7 @@ body.loading {
 .play-button-glass {
     width: 5.5rem;
     height: 5.5rem;
+    flex-shrink: 0; /* Impede que o botão deforme/esprema em telas pequenas */
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
@@ -1239,7 +1248,7 @@ body.dark-mode-active .services-section::before {
 }
 
 .services-title {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-size: 3.5rem;
     font-weight: 600;
     line-height: 1.2;
     margin-top: 1rem;
@@ -1257,7 +1266,9 @@ body.dark-mode-active .services-title {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    white-space: normal;
 }
 
 /* Pílula: Inicia Light */
@@ -1481,7 +1492,7 @@ body.dark-mode-active .bento-highlight::after {
 }
 
 .testimonials-title {
-    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-size: 3rem;
     font-weight: 600;
     line-height: 1.2;
     margin-top: 1rem;
@@ -1496,11 +1507,10 @@ body.dark-mode-active .bento-highlight::after {
 .chat-marquee-container {
     position: relative;
     display: flex;
-    width: 100vw;
-    left: 50%;
-    margin-left: -50vw;
+    width: 100%;
     margin-top: 4rem;
     padding: 2rem 0 4rem 0; /* Espaço para as sombras no hover */
+    overflow: hidden; /* Garante que os chats não vazem na tela */
 }
 
 .chat-marquee-fade-left, .chat-marquee-fade-right {
@@ -1674,6 +1684,225 @@ body.dark-mode-active .bento-highlight::after {
     
     .badge-3 { width: 1.5rem; height: 1.5rem; bottom: -0.625rem; border-radius: 0.375rem; }
     .badge-3 .lucide { width: 0.75rem; height: 0.75rem; }
+}
+
+/* =========================================================================
+   BREAKPOINTS DE LAYOUT PRINCIPAL (TABLET & MOBILE)
+   ========================================================================= */
+
+/* Esconde o botão flutuante no Desktop (Global) */
+.floating-whatsapp-btn { display: none !important; }
+
+@media (max-width: 1150px) {
+    /* Simplificação extrema da capa do vídeo no Mobile e Tablet */
+    .cover-logo-center, 
+    .video-label {
+        display: none !important; /* Deixa apenas o botão de play puro na capa */
+    }
+    
+    .play-button-glass {
+        margin: 0 !important; /* Centraliza 100% o botão já que removemos os textos ao redor */
+    }
+
+    /* Habilita o Botão Flutuante apenas para Tablet e Mobile */
+    .floating-whatsapp-btn {
+        display: flex !important; /* Força exibição sobre a regra global */
+        align-items: center !important;
+        gap: 0.5rem !important;
+        position: fixed;
+        bottom: 1.25rem;
+        right: 1.25rem;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        /* Overrides críticos pois ele herda propriedades que tentam esticar o botão */
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0.75rem 1.25rem !important;
+    }
+    
+    /* Classe GSAP que joga ele pra tela */
+    .floating-whatsapp-btn.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .bento-large, .bento-medium, .bento-small {
+        grid-column: span 2 !important; /* Em tablets, ocupam 100% da linha, ou podemos usar span 1 */
+    }
+    .bento-large { grid-column: span 2 !important; }
+    .bento-medium { grid-column: span 1 !important; }
+    .bento-small { grid-column: span 1 !important; }
+
+    .cta-grid-layout {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+    }
+    
+    .cta-right-col {
+        padding-left: 0;
+        border-left: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hide-on-tablet { display: none !important; }
+
+    .integrated-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+    
+    .footer-col-center {
+        order: -1; /* Força a Logo a ir para o topo quando vira coluna */
+    }
+    
+    /* Regras estáticas absolutas de tipografia para Tablets (Segundo o conceito de "degraus") */
+    .hero-title { font-size: 2.75rem !important; }
+    .bio-central-card .bio-title { font-size: 3rem !important; }
+    .cta-mega-title { font-size: 4rem !important; white-space: nowrap !important; }
+    .cta-editorial-subtitle { font-size: 1.25rem !important; line-height: 1.4 !important; }
+    .method-title { font-size: 3rem !important; }
+    .services-title { font-size: 2.75rem !important; }
+    .testimonials-title { font-size: 2.5rem !important; }
+    
+    /* Botões intermediários para Tablet */
+    .btn-animated-gradient {
+        padding: 1rem 2rem !important;
+        font-size: 1.125rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Forçar a tela a não ter scroll horizontal no HTML */
+    html {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .bento-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .bento-large, .bento-medium, .bento-small {
+        grid-column: span 1 !important;
+    }
+    
+    .bento-card {
+        min-height: auto;
+        padding: 1.5rem;
+    }
+
+    .chat-marquee-container {
+        width: 100%;
+        margin-left: 0;
+        left: 0;
+        overflow: hidden; /* Se não couber, oculta em vez de vazar */
+    }
+    
+    /* Garantir que todos os textos do site quebrem linha quando estritamente necessário no Mobile */
+    * {
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    /* Converter todas as fontes fluídas (clamp) do site para tamanhos estáticos absolutos no Mobile,
+       forçando-as a quebrar linha no limite da tela em vez de encolherem infinitamente */
+    .hero-title { font-size: 2.25rem !important; }
+    .hero-subtitle-main { font-size: 1.25rem !important; }
+    
+    .bio-central-card .bio-title { font-size: 2rem !important; }
+    
+    .cta-mega-title { font-size: 2.25rem !important; white-space: nowrap !important; }
+    .cta-editorial-subtitle { font-size: 1.1rem !important; line-height: 1.4 !important; }
+    
+    .mq-text { font-size: 1rem !important; }
+    
+    .method-title { font-size: 2rem !important; }
+    .method-subtitle { font-size: 1.125rem !important; }
+    
+    .services-title { font-size: 2.25rem !important; }
+    
+    .testimonials-title { font-size: 2rem !important; }
+    
+    /* Reduções estáticas de componentes no Mobile */
+    .bio-central-card p {
+        font-size: 1.125rem !important;
+        line-height: 1.6 !important;
+    }
+    
+    .testimonials-section {
+        padding: 4rem 1rem 2rem 1rem !important; /* Respiro nas bordas laterais */
+    }
+
+    /* Ocultar cabeçalho original no Mobile */
+    .header {
+        display: none !important;
+    }
+
+    /* O Botão Flutuante foi movido para o bloco Tablet (max-width: 1150px), que cobre automaticamente o Mobile. */
+    
+    /* Transformar o Mockup de MacBook em uma Moldura de Player Simples no Mobile */
+    .macbook-base-front, 
+    .macbook-camera, 
+    .macbook-brand {
+        display: none !important; /* Esconde teclado, base de alumínio, notch e texto */
+    }
+
+    .macbook-screen-bezel {
+        padding: 0 !important; /* Remove as bordas espessas de vidro */
+        border-radius: 1rem !important; /* Arredondamento normal de tela mobile */
+        background: transparent !important;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important; /* Sombra elegante */
+        border: 2px solid rgba(255,255,255,0.1) !important;
+        overflow: hidden; /* Corta o vídeo pra ficar dentro do border-radius */
+    }
+
+    .macbook-screen-content {
+        border-radius: 0 !important; /* O radius é controlado pela bezel externa agora */
+    }
+
+    .premium-chat-card {
+        width: 300px !important; /* Cards menores e mais fáceis de ler */
+        padding: 1rem !important;
+        gap: 1rem !important;
+    }
+    
+    .chat-info-premium h4 { font-size: 0.95rem !important; }
+    .bubble-premium { font-size: 0.85rem !important; padding: 0.85rem 1rem !important; }
+
+    /* Ajuste de Botões no Mobile (Tamanho reduzido e travado) */
+    .btn-animated-gradient {
+        padding: 0.875rem 1.5rem !important;
+        font-size: 1rem !important;
+        width: 100%; /* Ocupa a largura total para melhor toque no celular, se for pequeno ele ajusta */
+        max-width: 320px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .badge-container {
+        /* Badge agora usa 'em' e reduzirá matematicamente na mesma proporção da fonte, 
+           sem a necessidade de ser ocultado */
+    }
+}
+
+/* Telas Extremamente Estreitas (iPhone SE, Galaxy Fold dobrado, etc) */
+@media (max-width: 382px) {
+    /* Ocultar a parte de 'RESULTADOS' e seu divisor para não quebrar a pílula da Hero em duas linhas */
+    .hero-pill .pill-text ~ .divider,
+    .hero-pill .live-status {
+        display: none !important;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

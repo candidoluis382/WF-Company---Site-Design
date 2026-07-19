@@ -58,7 +58,7 @@
             <div class="hero-content">
                 <!-- Tag Superior Inspirada no Design System -->
                 <div class="hero-reveal-el hero-pill">
-                    <i data-lucide="sparkles" class="icon-purple"></i>
+                    <i data-lucide="target" class="icon-purple"></i>
                     <span class="divider"></span>
                     <span class="pill-text">Especialistas em VGV</span>
                     <span class="divider"></span>
@@ -73,7 +73,7 @@
                     <span class="gradient-text font-bold">Mercado Imobiliário!</span>
                     <!-- Elemento Visual Fora da Caixa (Badge Container) -->
                     <span class="badge-container">
-                        <span class="floating-badge badge-1"><i data-lucide="sparkles"></i></span>
+                        <span class="floating-badge badge-1"><i data-lucide="mouse-pointer-click"></i></span>
                         <span class="floating-badge badge-2"><i data-lucide="building"></i></span>
                         <span class="floating-badge badge-3"><i data-lucide="line-chart"></i></span>
                     </span>
@@ -609,7 +609,7 @@
                 <!-- Coluna Esquerda: Título Massivo -->
                 <div class="cta-left-col">
                     <h2 class="cta-mega-title">
-                        Alguma<br>
+                        Alguma<br class="hide-on-tablet">
                         <span class="gradient-text">Dúvida?</span>
                     </h2>
                 </div>
@@ -992,9 +992,27 @@
                 x: 50, opacity: 0, duration: 1, ease: 'power4.out'
             }, "-=0.8");
 
+            // =========================================================================
+            // Lógica do Botão Flutuante (Apenas Mobile)
+            // =========================================================================
+            // Mostra o botão flutuante apenas entre o fim da hero e o topo da seção CTA
+            ScrollTrigger.create({
+                trigger: '.hero',
+                start: 'bottom top', // Quando a base da hero toca o topo da tela
+                endTrigger: '.final-cta-section',
+                end: 'top bottom', // Quando o topo da CTA toca a base da tela
+                toggleClass: {targets: "#floating-wa-btn", className: "is-visible"}
+            });
+
             // Inicializa Ícones
             lucide.createIcons();
         }
     </script>
+
+    <!-- Botão Flutuante Fale com Especialista (Apenas Mobile) -->
+    <a href="https://wa.me/" class="btn-animated-gradient floating-whatsapp-btn" id="floating-wa-btn">
+        <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
+        Falar com Especialista
+    </a>
 </body>
 </html>
