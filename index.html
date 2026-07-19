@@ -864,30 +864,20 @@
             });
 
             // =========================================================================
-            // Animações: Vídeo Automático
+            // Lógica do Player de Vídeo (Mockup MacBook)
             // =========================================================================
-            const videoTrigger = document.querySelector('.video-section');
-            if (videoTrigger) {
-                ScrollTrigger.create({
-                    trigger: '.video-section',
-                    start: 'top 60%',
-                    onEnter: () => {
-                        const ytPlayer = document.getElementById('yt-player');
-                        if (ytPlayer && !ytPlayer.src) {
-                            ytPlayer.src = ytPlayer.getAttribute('data-src');
-                        }
-                    }
-                });
-                
-                // Opção Fallback: Clicou, carrega e dá play
-                const videoOverlay = document.querySelector('.video-overlay');
-                const ytPlayer = document.getElementById('yt-player');
-                
-                videoOverlay.addEventListener('click', () => {
-                    videoOverlay.style.display = 'none';
+            const videoCover = document.getElementById('video-cover');
+            const ytPlayer = document.getElementById('youtube-player');
+            
+            if (videoCover && ytPlayer) {
+                videoCover.addEventListener('click', () => {
+                    // Oculta a capa com transição suave (classe .hidden já existe no CSS)
+                    videoCover.classList.add('hidden'); 
+                    videoCover.style.pointerEvents = 'none'; // Permite clicar no iframe depois
                     
-                    // Injeta a URL com autoplay na mesma hora do clique, evitando o bloqueio local (Erro 153)
-                    if (!ytPlayer.src) {
+                    // Injeta a URL com autoplay apenas no momento do clique, 
+                    // garantindo a melhor performance e evitando áudio fantasma.
+                    if (!ytPlayer.src || ytPlayer.src === window.location.href) {
                         ytPlayer.src = ytPlayer.getAttribute('data-src');
                     }
                 });
